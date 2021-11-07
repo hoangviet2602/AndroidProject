@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CartActivity"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="#FF3333"
+        app:logo="@drawable/ic_baseline_arrow_back_24"
+        app:title="                   Giỏ hàng"
+        app:titleTextAppearance="@style/Toolbar.TitleText2"
+        app:titleTextColor="@color/white"
+        tools:ignore="MissingConstraints">
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/layout1"
+        android:layout_height="0dp"
+        android:id="@+id/my_recycler_cart">
+    </androidx.recyclerview.widget.RecyclerView>
+    <LinearLayout
+        app:layout_constraintBottom_toTopOf="@id/btnBuy"
+        android:id="@+id/layout1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@drawable/layout"
+        android:layout_marginBottom="15dp"
+        android:layout_height="0dp">
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng tiền"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:textColor="#E81313"/>
+        <TextView
+            android:id="@+id/txtTongTien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50.000 đ"
+            android:textSize="20dp"
+            android:textColor="#E81313"
+            android:layout_marginLeft="150dp"/>
+
+
+    </LinearLayout>
+
+        <Button
+            android:id="@+id/btnBuy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Mua hàng"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="20dp"
+            android:background="@drawable/button_style"
+            />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
