@@ -10,9 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
         <activity
-            android:name=".History"
-            android:exported="false" />
-        <activity
             android:name=".InfomationCustomer"
             android:exported="false" />
         <activity
