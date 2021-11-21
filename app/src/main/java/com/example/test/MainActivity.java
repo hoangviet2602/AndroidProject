@@ -1,13 +1,18 @@
 package com.example.test;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +22,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.test.pk_HelperClasses.adapterphone;
 import com.example.test.pk_HelperClasses.phonehelper;
 import com.example.test.pk_Item.Item;
@@ -25,12 +37,20 @@ import com.example.test.pk_img_viewflper.Photo;
 import com.example.test.pk_img_viewflper.PhotoAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
+
 
 public class MainActivity extends AppCompatActivity implements adapterphone.ListItemClickListener, adapterItem.ListItemClickListener {
     BottomNavigationView bottomNavigationView;
@@ -50,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
 
     TextView smsCountTxt;
     public static int pendingSMSCount = 0;
-
+    private static  final String BASE_URL = "http://192.168.1.62/androidwebservice/danhmuc.php";
+    ArrayList<Item> itemDMs = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +118,10 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
 
         //Hooks
         itemRecycler = findViewById(R.id.my_recycler);
-        itemRecycler();
+        getDanhMuc();
+
+        //itemRecycler();
+
         phoneRecycler2 = findViewById(R.id.my_recycler1);
         phoneRecycler2();
         phoneRecycler3 = findViewById(R.id.my_recycler2);
@@ -117,6 +141,46 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
 
         toolbar = findViewById(R.id.toolbarmain);
         setSupportActionBar(toolbar);
+
+
+    }
+    private  void getDanhMuc(){
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, BASE_URL, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for(int i = 0 ; i <=response.length();i++){
+                            try{
+                                JSONObject object = response.getJSONObject(i);
+
+                                    Item item = new Item();
+                                    item.setId(object.getInt("idDM"));
+                                    item.setTitle(object.getString("TenDM"));
+                                    item.setImage(object.getString("HinhAnh"));
+                                    itemDMs.add(item);
+
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        itemRecycler.setLayoutManager(new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.HORIZONTAL,false));
+                        //itemRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        adapter = new adapterItem(getApplicationContext(),itemDMs,MainActivity.this);
+                        itemRecycler.setAdapter(adapter);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText( null, "lỗi", Toast.LENGTH_SHORT).show();
+                Log.d("tag","onErrorRespone: " +error.getMessage());
+            }
+        });
+        queue.add(jsonArrayRequest);
     }
 
 
@@ -232,20 +296,14 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         itemRecycler.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
 
         ArrayList<Item> itemlocations = new ArrayList<>();
-        itemlocations.add(new Item( R.drawable.apple, ""));
-        itemlocations.add(new Item( R.drawable.samsung_logo, ""));
-        itemlocations.add(new Item( R.drawable.asus_logo, ""));
-        itemlocations.add(new Item( R.drawable.xiaomi_logo, ""));
-        itemlocations.add(new Item( R.drawable.vsmart_ogo, ""));
-        itemlocations.add(new Item( R.drawable.vivo_logo, ""));
-        itemlocations.add(new Item( R.drawable.realme_logo, ""));
-        itemlocations.add(new Item( R.drawable.oneplus_logo, ""));
-        itemlocations.add(new Item( R.drawable.apple, ""));
-        itemlocations.add(new Item( R.drawable.samsung_logo, ""));
+        itemlocations.add(new Item( "https://seeklogo.com/images/I/iphone-logo-5611B518C2-seeklogo.com.png", "",1));
+
 
         adapter = new adapterItem(this,itemlocations,  this);
         itemRecycler.setAdapter(adapter);
     }
+
+
     private void phoneRecycler2() {
 
         phoneRecycler2.setHasFixedSize(true);
