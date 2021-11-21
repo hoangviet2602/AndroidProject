@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/IT/Adroid/AndroidStudioProjects/AndroidProject/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/IT/Adroid/AndroidStudioProjects/AndroidProject/app/src/main/res/layout/itemcart.xml" value="0.25416666666666665" />
+        <entry key="..\:/IT/Adroid/AndroidStudioProjects/AndroidProject/app/src/main/res/layout/itemrecyclercard.xml" value="0.25416666666666665" />
         <entry key="..\:/IT/Adroid/AndroidStudioProjects/test/app/src/main/res/drawable/badge_background.xml" value="0.2703125" />
         <entry key="..\:/IT/Adroid/AndroidStudioProjects/test/app/src/main/res/drawable/button_style.xml" value="0.2657407407407407" />
         <entry key="..\:/IT/Adroid/AndroidStudioProjects/test/app/src/main/res/drawable/custom_notification_layout.xml" value="0.2703125" />

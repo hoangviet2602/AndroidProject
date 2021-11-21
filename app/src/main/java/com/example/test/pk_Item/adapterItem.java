@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.test.MainActivity;
 import com.example.test.R;
 import com.example.test.CategoryActivity;
@@ -46,8 +47,8 @@ public class adapterItem extends RecyclerView.Adapter<adapterItem.ItemViewHold> 
 
 
         final Item itemhelper = itemLaocations.get(position);
-        holder.image.setImageResource(itemhelper.getImage());
-        holder.title.setText(itemhelper.getTitle());
+        Glide.with(mContext).load(itemhelper.getImage()).into(holder.image);
+        //holder.title.setText(itemhelper.getTitle());
 
         holder.layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +62,7 @@ public class adapterItem extends RecyclerView.Adapter<adapterItem.ItemViewHold> 
         Bundle bundle = new Bundle();
         bundle.putSerializable("object",itemhelper);
         intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 
@@ -87,7 +89,7 @@ public class adapterItem extends RecyclerView.Adapter<adapterItem.ItemViewHold> 
             //hooks
             layoutItem = itemView.findViewById(R.id.item_Cardview);
             image = itemView.findViewById(R.id.item_image);
-            title = itemView.findViewById(R.id.item_title);
+            //title = itemView.findViewById(R.id.item_title);
 
 
         }
