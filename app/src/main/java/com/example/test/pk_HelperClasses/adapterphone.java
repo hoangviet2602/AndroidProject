@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.test.ProductDetailActivity;
 import com.example.test.R;
 
@@ -44,7 +45,8 @@ public class adapterphone extends RecyclerView.Adapter<adapterphone.PhoneViewHol
 
 
         final phonehelper phonehelper = phoneLaocations.get(position);
-        holder.image.setImageResource(phonehelper.getImage());
+        //holder.image.setImageResource(phonehelper.getImage());
+        Glide.with(mContext).load(phonehelper.getImage()).into(holder.image);
         holder.star.setImageResource(phonehelper.getStar());
         holder.star2.setImageResource(phonehelper.getStar2());
         holder.star3.setImageResource(phonehelper.getStar3());
@@ -68,6 +70,7 @@ public class adapterphone extends RecyclerView.Adapter<adapterphone.PhoneViewHol
         Bundle bundle = new Bundle();
         bundle.putSerializable("object",phonehelper);
         intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 

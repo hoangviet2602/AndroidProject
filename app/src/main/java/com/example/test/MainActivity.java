@@ -1,24 +1,19 @@
 package com.example.test;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -27,7 +22,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.test.pk_HelperClasses.adapterphone;
 import com.example.test.pk_HelperClasses.phonehelper;
@@ -40,10 +34,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -71,7 +63,10 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
     TextView smsCountTxt;
     public static int pendingSMSCount = 0;
     private static  final String BASE_URL = "http://192.168.1.62/androidwebservice/danhmuc.php";
+    private static  final String BASE_URL_SP = "http://192.168.1.62/androidwebservice/sanpham.php";
     ArrayList<Item> itemDMs = new ArrayList<Item>();
+    ArrayList<phonehelper> Phones = new ArrayList<phonehelper>();
+    ArrayList<phonehelper> Phones2 = new ArrayList<phonehelper>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,14 +115,14 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         itemRecycler = findViewById(R.id.my_recycler);
         getDanhMuc();
 
-        //itemRecycler();
+
 
         phoneRecycler2 = findViewById(R.id.my_recycler1);
-        phoneRecycler2();
+        getSanPham();
         phoneRecycler3 = findViewById(R.id.my_recycler2);
-        phoneRecycler3();
+        getSanPham2();
         phoneRecycler4 = findViewById(R.id.my_recycler3);
-        phoneRecycler4();
+        //phoneRecycler4();
 
         mlistphoto = getListPhoto();
         viewPager = findViewById(R.id.viewpager);
@@ -142,32 +137,25 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         toolbar = findViewById(R.id.toolbarmain);
         setSupportActionBar(toolbar);
 
-
     }
     private  void getDanhMuc(){
-
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, BASE_URL, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
                         for(int i = 0 ; i <=response.length();i++){
                             try{
                                 JSONObject object = response.getJSONObject(i);
-
                                     Item item = new Item();
                                     item.setId(object.getInt("idDM"));
                                     item.setTitle(object.getString("TenDM"));
                                     item.setImage(object.getString("HinhAnh"));
                                     itemDMs.add(item);
-
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
-
                         }
-
                         itemRecycler.setLayoutManager(new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.HORIZONTAL,false));
                         //itemRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
                         adapter = new adapterItem(getApplicationContext(),itemDMs,MainActivity.this);
@@ -182,7 +170,98 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         });
         queue.add(jsonArrayRequest);
     }
-
+    private void getSanPham(){
+        NumberFormat formatter = new DecimalFormat("###,###,###");
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, BASE_URL_SP, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        for(int i = 0 ; i <=response.length();i++){
+                            try{
+                                JSONObject object = response.getJSONObject(i);
+                                phonehelper phone = new phonehelper();
+                                phone.setIdDM(object.getInt("idDM"));
+                                phone.setIdSP(object.getInt("idSP"));
+                                phone.setTitle(object.getString("Tittle"));
+                                phone.setImage(object.getString("HinhAnh"));
+                                phone.setNote(object.getString("UuDai"));
+                                phone.setPrice(formatter.format(object.getInt("Gia"))+" VNĐ");
+                                phone.setRate(object.getInt("SoDanhGia")+" đánh giá");
+                                phone.setSizemanhinh(object.getString("size"));
+                                phone.setLoaimanhinh(object.getString("loai"));
+                                phone.setRam(object.getString("ram"));
+                                phone.setRom(object.getString("rom"));
+                                phone.setPin(object.getString("pin"));
+                                phone.setStar(R.drawable.star);
+                                phone.setStar2(R.drawable.star);
+                                phone.setStar3(R.drawable.star);
+                                phone.setStar4(R.drawable.star);
+                                Phones.add(phone);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                        phoneRecycler2.setLayoutManager(new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.HORIZONTAL,false));
+                        //itemRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        adapter = new adapterphone(getApplicationContext(),Phones,MainActivity.this);
+                        phoneRecycler2.setAdapter(adapter);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText( null, "lỗi", Toast.LENGTH_SHORT).show();
+                Log.d("tag","onErrorRespone: " +error.getMessage());
+            }
+        });
+        queue.add(jsonArrayRequest);
+    }
+    private void getSanPham2(){
+        NumberFormat formatter = new DecimalFormat("###,###,###");
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, BASE_URL_SP, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        for(int i = 0 ; i <=response.length();i++){
+                            try{
+                                JSONObject object = response.getJSONObject(i);
+                                phonehelper phone = new phonehelper();
+                                phone.setIdDM(object.getInt("idDM"));
+                                phone.setIdSP(object.getInt("idSP"));
+                                phone.setTitle(object.getString("Tittle"));
+                                phone.setImage(object.getString("HinhAnh"));
+                                phone.setNote(object.getString("UuDai"));
+                                phone.setPrice(formatter.format(object.getInt("Gia"))+" VNĐ");
+                                phone.setRate(object.getInt("SoDanhGia")+" đánh giá");
+                                phone.setSizemanhinh(object.getString("size"));
+                                phone.setLoaimanhinh(object.getString("loai"));
+                                phone.setRam(object.getString("ram"));
+                                phone.setRom(object.getString("rom"));
+                                phone.setPin(object.getString("pin"));
+                                phone.setStar(R.drawable.star);
+                                phone.setStar2(R.drawable.star);
+                                phone.setStar3(R.drawable.star);
+                                phone.setStar4(R.drawable.star);
+                                Phones2.add(phone);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                        phoneRecycler3.setLayoutManager(new GridLayoutManager(getApplicationContext(),1,GridLayoutManager.HORIZONTAL,false));
+                        //itemRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        adapter = new adapterphone(getApplicationContext(),Phones,MainActivity.this);
+                        phoneRecycler3.setAdapter(adapter);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText( null, "lỗi", Toast.LENGTH_SHORT).show();
+                Log.d("tag","onErrorRespone: " +error.getMessage());
+            }
+        });
+        queue.add(jsonArrayRequest);
+    }
 
 
     @Override
@@ -222,7 +301,6 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
             }
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -289,84 +367,6 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         }
     }
 
-    private void itemRecycler() {
-        //All Gradients
-        itemRecycler.setHasFixedSize(true);
-        //phoneRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        itemRecycler.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
-
-        ArrayList<Item> itemlocations = new ArrayList<>();
-        itemlocations.add(new Item( "https://seeklogo.com/images/I/iphone-logo-5611B518C2-seeklogo.com.png", "",1));
-
-
-        adapter = new adapterItem(this,itemlocations,  this);
-        itemRecycler.setAdapter(adapter);
-    }
-
-
-    private void phoneRecycler2() {
-
-        phoneRecycler2.setHasFixedSize(true);
-        //phoneRecycler2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        phoneRecycler2.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
-        ArrayList<phonehelper> phonelocations = new ArrayList<>();
-
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-
-        adapter = new adapterphone(this,phonelocations,this);
-        phoneRecycler2.setAdapter(adapter);
-
-    }
-    private void phoneRecycler3() {
-
-        phoneRecycler3.setHasFixedSize(true);
-        phoneRecycler3.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        //phoneRecycler3.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
-        ArrayList<phonehelper> phonelocations = new ArrayList<>();
-
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-
-        adapter = new adapterphone(this,phonelocations,this);
-        phoneRecycler3.setAdapter(adapter);
-
-    }
-    private void phoneRecycler4() {
-        phoneRecycler4.setHasFixedSize(true);
-        phoneRecycler4.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        //phoneRecycler3.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
-        ArrayList<phonehelper> phonelocations = new ArrayList<>();
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Ưu đãi tối tác 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelper(R.drawable.samsung1, "Samsung Galaxy Z Fold3 5G","19.990.000","13 đánh giá","Tặng bảo hành vàng",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-
-        adapter = new adapterphone(this,phonelocations,this);
-        phoneRecycler4.setAdapter(adapter);
-    }
 
     @Override
     public void onphoneListClick(int clickedItemIndex) {

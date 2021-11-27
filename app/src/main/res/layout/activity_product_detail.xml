@@ -121,12 +121,118 @@
                     android:background="@color/pink" />
 
             </RelativeLayout>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thông số kỹ thuật"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/border_around"
+                android:orientation="horizontal">
 
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Kích thước màn hình"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="10dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Công nghệ màn hình"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="10dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dung lượng RAM"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="10dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bộ nhớ trong"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="10dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dung lượng pin"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="7dp"
+                   >
+                    <TextView
+                        android:id="@+id/sizemanhinh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Kích thước màn hình"
+
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="10dp"/>
+                    <TextView
+                        android:id="@+id/loaimanhinh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Công nghệ màn hình"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="13dp"/>
+                    <TextView
+                        android:id="@+id/ram"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dung lượng RAM"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="13dp"/>
+                    <TextView
+                        android:id="@+id/rom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bộ nhớ trong"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="13dp"/>
+                    <TextView
+                        android:id="@+id/pin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dung lượng pin"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="13dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/km"
                 android:layout_width="380dp"
                 android:layout_height="218dp"
-                android:layout_marginTop="12dp"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
