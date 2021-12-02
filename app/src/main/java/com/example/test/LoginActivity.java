@@ -1,7 +1,5 @@
 package com.example.test;
 
-import static com.example.test.MainActivity.user;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView gotoRegister;
     EditText txtEmail,txtPass;
+    ArrayList<User> Users = new ArrayList<User>();
     private String URL = "http://192.168.1.62/androidwebservice/login.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +76,16 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this,"OK: " ,Toast.LENGTH_SHORT).show();
                             for(int i = 0 ; i < jsonArray.length();i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
-                                    user =  object.getString("Username").trim();
+                                //user =  object.getString("Username").trim();
 
+                                User user = new User();
+                                user.setIdUser(object.getInt("idUser"));
+                                user.setUsername(object.getString("Username").trim());
+                                user.setPass(object.getString("Pass").trim());
+                                Users.add(user);
+
+
+                                Toast.makeText(LoginActivity.this,"Tên: " +  user.getUsername(),Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -111,5 +119,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 }
