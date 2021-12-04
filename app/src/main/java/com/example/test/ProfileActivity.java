@@ -1,8 +1,6 @@
 package com.example.test;
 
-import static com.example.test.MainActivity.islogin;
 import static com.example.test.MainActivity.pendingSMSCount;
-
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -109,13 +107,10 @@ public class ProfileActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case  R.id.actioncart:
-                if(islogin!=false ){
+
                     Intent intent = new Intent(ProfileActivity.this, CartActivity.class);
                     startActivity(intent);
-                }else{
-                    Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
+
                 break;
             default:
                 break;

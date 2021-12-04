@@ -1,5 +1,6 @@
 package com.example.test;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -42,6 +44,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
+import pk_cart.Cart;
 
 
 public class MainActivity extends AppCompatActivity implements adapterphone.ListItemClickListener, adapterItem.ListItemClickListener {
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
     public static int pendingSMSCount = 0;
     private static  final String BASE_URL = "http://192.168.1.62/androidwebservice/danhmuc.php";
     private static  final String BASE_URL_SP = "http://192.168.1.62/androidwebservice/sanpham.php";
+    public static ArrayList<Cart>  cartArrayList;
     ArrayList<Item> itemDMs = new ArrayList<Item>();
     ArrayList<phonehelper> Phones = new ArrayList<phonehelper>();
     ArrayList<phonehelper> Phones2 = new ArrayList<phonehelper>();
@@ -74,8 +78,8 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Anhxa();
 
-        bottomNavigationView = findViewById(R.id.bottom_navigator);
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -86,8 +90,9 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
                         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         overridePendingTransition(0,0);
                         }else{
-                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                            overridePendingTransition(0,0);
+                            //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            //overridePendingTransition(0,0);
+                            DialogSubmit();
                         }
                         return true;
                     case R.id.home:
@@ -101,31 +106,20 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
                             startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
                             overridePendingTransition(0,0);
                         }else{
-                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                            overridePendingTransition(0,0);
+                            //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            //overridePendingTransition(0,0);
+                            DialogSubmit();
                         }
                         return true;
                 }
                 return false;
             }
         });
-
-
-        //Hooks
-        itemRecycler = findViewById(R.id.my_recycler);
         getDanhMuc();
-
-
-
-        phoneRecycler2 = findViewById(R.id.my_recycler1);
         getSanPham();
-        phoneRecycler3 = findViewById(R.id.my_recycler2);
         getSanPham2();
-        phoneRecycler4 = findViewById(R.id.my_recycler3);
         //phoneRecycler4();
-
         mlistphoto = getListPhoto();
-        viewPager = findViewById(R.id.viewpager);
         circleIndicator = findViewById(R.id.circle_indicator);
 
         photoAdapter = new PhotoAdapter(this,mlistphoto );
@@ -134,10 +128,47 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         circleIndicator.setViewPager(viewPager);
         photoAdapter.registerDataSetObserver(circleIndicator.getDataSetObserver());
 
-        toolbar = findViewById(R.id.toolbarmain);
+
         setSupportActionBar(toolbar);
 
     }
+
+    private void Anhxa() {
+        if(cartArrayList != null)
+        {
+            pendingSMSCount = cartArrayList.size();
+        }else{
+            cartArrayList = new ArrayList<>();
+        }
+        bottomNavigationView = findViewById(R.id.bottom_navigator);
+        itemRecycler = findViewById(R.id.my_recycler);
+        phoneRecycler2 = findViewById(R.id.my_recycler1);
+        phoneRecycler3 = findViewById(R.id.my_recycler2);
+        phoneRecycler4 = findViewById(R.id.my_recycler3);
+        viewPager = findViewById(R.id.viewpager);
+        toolbar = findViewById(R.id.toolbarmain);
+    }
+    private void DialogSubmit(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Thông báo");
+        //alert.setIcon(R.);
+        alert.setMessage("Bạn cần đăng nhập để xem thông báo");
+
+        alert.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            }
+        });
+        alert.setNegativeButton("Huy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        alert.show();
+    }
+
     private  void getDanhMuc(){
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, BASE_URL, null,
@@ -187,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
                                 phone.setImage(object.getString("HinhAnh"));
                                 phone.setNote(object.getString("UuDai"));
                                 phone.setPrice(formatter.format(object.getInt("Gia"))+" VNĐ");
+                                phone.setGiaInt(object.getInt("Gia"));
                                 phone.setRate(object.getInt("SoDanhGia")+" đánh giá");
                                 phone.setSizemanhinh(object.getString("size"));
                                 phone.setLoaimanhinh(object.getString("loai"));
@@ -307,13 +339,8 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         int id = item.getItemId();
         switch (id){
             case  R.id.actioncart:
-                if(islogin!=false ){
                     Intent intent = new Intent(MainActivity.this, CartActivity.class);
                     startActivity(intent);
-                }else{
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
                 break;
             default:
                 break;

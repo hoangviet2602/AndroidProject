@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class phonehelper implements Serializable {
     int idDM;
     int idSP;
+    int giaInt;
     String image;
     String title;
     String price;
@@ -19,9 +20,10 @@ public class phonehelper implements Serializable {
     public phonehelper() {
     }
 
-    public phonehelper(int idDM, int idSP, String image, String title, String price, String rate, String note, String sizemanhinh, String loaimanhinh, String ram, String rom, String pin, int star, int star2, int star3, int star4) {
+    public phonehelper(int idDM, int idSP, int giaInt, String image, String title, String price, String rate, String note, String sizemanhinh, String loaimanhinh, String ram, String rom, String pin, int star, int star2, int star3, int star4) {
         this.idDM = idDM;
         this.idSP = idSP;
+        this.giaInt = giaInt;
         this.image = image;
         this.title = title;
         this.price = price;
@@ -52,6 +54,14 @@ public class phonehelper implements Serializable {
 
     public void setIdSP(int idSP) {
         this.idSP = idSP;
+    }
+
+    public int getGiaInt() {
+        return giaInt;
+    }
+
+    public void setGiaInt(int giaInt) {
+        this.giaInt = giaInt;
     }
 
     public String getImage() {
