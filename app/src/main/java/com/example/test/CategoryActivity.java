@@ -1,7 +1,7 @@
 package com.example.test;
 
+import static com.example.test.MainActivity.islogin;
 import static com.example.test.MainActivity.pendingSMSCount;
-import static com.example.test.MainActivity.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,7 +59,7 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.profile:
-                        if(user!=null){
+                        if(islogin!=false){
                             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                             overridePendingTransition(0,0);
                         }else{
@@ -74,7 +74,7 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
                     case R.id.item:
                         return true;
                     case R.id.action_notification:
-                        if(user!=null){
+                        if(islogin!=false){
                             startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
                             overridePendingTransition(0,0);
                         }else{
@@ -239,7 +239,7 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
         int id = item.getItemId();
         switch (id){
             case  R.id.actioncart:
-                if(user != null ){
+                if(islogin!=false ){
                     Intent intent = new Intent(CategoryActivity.this, CartActivity.class);
                     startActivity(intent);
                 }else{

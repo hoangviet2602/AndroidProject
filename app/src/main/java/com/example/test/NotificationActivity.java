@@ -1,6 +1,8 @@
 package com.example.test;
 
-import static com.example.test.MainActivity.user;
+
+
+import static com.example.test.MainActivity.islogin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +37,7 @@ public class NotificationActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.profile:
-                        if(user!=null){
+                        if(islogin!=false){
                             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                             overridePendingTransition(0,0);
                         }else{

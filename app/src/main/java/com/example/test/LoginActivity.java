@@ -1,5 +1,8 @@
 package com.example.test;
 
+import static com.example.test.MainActivity.islogin;
+import static com.example.test.MainActivity.pendingSMSCount;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,12 +28,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView gotoRegister;
     EditText txtEmail,txtPass;
-    ArrayList<User> Users = new ArrayList<User>();
+    public static ArrayList<User> Users = new ArrayList<User>();
+    public static int idUser;
     private String URL = "http://192.168.1.62/androidwebservice/login.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     public void login() {
         String mUser = txtEmail.getText().toString().trim();
         String mPass  = txtPass.getText().toString().trim();
+        islogin = true;
         if(!mUser.equals("") && !mPass.equals("")){
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
@@ -76,7 +80,9 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this,"OK: " ,Toast.LENGTH_SHORT).show();
                             for(int i = 0 ; i < jsonArray.length();i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
-                                //user =  object.getString("Username").trim();
+
+                                idUser = object.getInt("idUser");
+                                pendingSMSCount = 2;
 
                                 User user = new User();
                                 user.setIdUser(object.getInt("idUser"));
@@ -89,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                                 startActivity(intent);
                                 finish();
+
 
                             }
 

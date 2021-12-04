@@ -1,7 +1,8 @@
 package com.example.test;
 
+import static com.example.test.LoginActivity.idUser;
+import static com.example.test.MainActivity.islogin;
 import static com.example.test.MainActivity.pendingSMSCount;
-import static com.example.test.MainActivity.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 
 public class InfomationCustomer extends AppCompatActivity {
     Toolbar toolbar;
-    TextView smsCountTxt;
+    TextView smsCountTxt,txtName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,9 @@ public class InfomationCustomer extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbarinfo);
         setSupportActionBar(toolbar);
+
+        txtName = findViewById(R.id.txtName);
+        txtName.setText(""+idUser);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,7 +70,7 @@ public class InfomationCustomer extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case  R.id.actioncart:
-                if(user != null ){
+                if(islogin!=false){
                     Intent intent = new Intent(InfomationCustomer.this, CartActivity.class);
                     startActivity(intent);
                 }else{

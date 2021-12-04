@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
     private Timer mTimer;
     RecyclerView.Adapter adapter;
     Toolbar toolbar;
-    public static String user = null;
-    public static String pass = null;
+
+    public static boolean islogin = false;
 
     TextView smsCountTxt;
     public static int pendingSMSCount = 0;
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.profile:
-                        if(user!=null){
+                        if(islogin!=false){
                         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         overridePendingTransition(0,0);
                         }else{
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.action_notification:
-                        if(user!=null){
+                        if(islogin!=false){
                             startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
                             overridePendingTransition(0,0);
                         }else{
@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         int id = item.getItemId();
         switch (id){
             case  R.id.actioncart:
-                if(user != null ){
+                if(islogin!=false ){
                     Intent intent = new Intent(MainActivity.this, CartActivity.class);
                     startActivity(intent);
                 }else{

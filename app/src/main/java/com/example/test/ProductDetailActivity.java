@@ -2,8 +2,9 @@ package com.example.test;
 
 
 
+import static com.example.test.MainActivity.islogin;
 import static com.example.test.MainActivity.pendingSMSCount;
-import static com.example.test.MainActivity.user;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -176,7 +177,7 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         int id = item.getItemId();
         switch (id){
             case  R.id.actioncart:
-                if(user != null ){
+                if(islogin!=false ){
                     Intent intent = new Intent(ProductDetailActivity.this, CartActivity.class);
                     startActivity(intent);
                 }else{
