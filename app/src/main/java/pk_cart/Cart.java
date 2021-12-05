@@ -1,88 +1,58 @@
 package pk_cart;
 
 public class Cart {
-    public int image;
-    public int imgplus;
-    public int imgminus;
-    public String quanlity;
-    public String delete;
-    public String tittle;
-    public float price;
-    public String note;
+    int idSP;
+    String tenSP;
+    long GiaSP;
+    String HinhAnh;
+    int SoLuong;
 
-    public Cart(int image, int imgplus, int imgminus, String quanlity, String delete, String tittle, float price, String note) {
-        this.image = image;
-        this.imgplus = imgplus;
-        this.imgminus = imgminus;
-        this.quanlity = quanlity;
-        this.delete = delete;
-        this.tittle = tittle;
-        this.price = price;
-        this.note = note;
+    public Cart(int idSP, String tenSP, long giaSP, String hinhAnh, int soLuong) {
+        this.idSP = idSP;
+        this.tenSP = tenSP;
+        GiaSP = giaSP;
+        HinhAnh = hinhAnh;
+        SoLuong = soLuong;
     }
 
-    public int getImage() {
-        return image;
+    public int getIdSP() {
+        return idSP;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setIdSP(int idSP) {
+        this.idSP = idSP;
     }
 
-    public int getImgplus() {
-        return imgplus;
+    public String getTenSP() {
+        return tenSP;
     }
 
-    public void setImgplus(int imgplus) {
-        this.imgplus = imgplus;
+    public void setTenSP(String tenSP) {
+        this.tenSP = tenSP;
     }
 
-    public int getImgminus() {
-        return imgminus;
+    public long getGiaSP() {
+        return GiaSP;
     }
 
-    public void setImgminus(int imgminus) {
-        this.imgminus = imgminus;
+    public void setGiaSP(long giaSP) {
+        GiaSP = giaSP;
     }
 
-    public String getQuanlity() {
-        return quanlity;
+    public String getHinhAnh() {
+        return HinhAnh;
     }
 
-    public void setQuanlity(String quanlity) {
-        this.quanlity = quanlity;
+    public void setHinhAnh(String hinhAnh) {
+        HinhAnh = hinhAnh;
     }
 
-    public String getDelete() {
-        return delete;
+    public int getSoLuong() {
+        return SoLuong;
     }
 
-    public void setDelete(String delete) {
-        this.delete = delete;
-    }
-
-    public String getTittle() {
-        return tittle;
-    }
-
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
+    public void setSoLuong(int soLuong) {
+        SoLuong = soLuong;
     }
 }
 

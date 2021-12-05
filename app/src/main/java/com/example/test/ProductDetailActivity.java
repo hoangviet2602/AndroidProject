@@ -1,10 +1,7 @@
 package com.example.test;
 
 
-
-import static com.example.test.MainActivity.islogin;
 import static com.example.test.MainActivity.pendingSMSCount;
-
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,26 +37,101 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import pk_cart.Cart;
+
 public class ProductDetailActivity extends AppCompatActivity implements adapterphone.ListItemClickListener{
     Toolbar toolbar;
     TextView smsCountTxt;
     RecyclerView phoneRecycler;
     RecyclerView.Adapter adapter;
-    TextView tvTen,tvGia,tvsize,tvloai,tvram,tvrom,tvpin;
+    TextView tvTen,tvGia,tvsize,tvloai,tvram,tvrom,tvpin,soluong;
+    Button addCart ;
     ImageView imageView;
+    ImageButton minus,plus;
     ArrayList<phonehelper> Phones = new ArrayList<phonehelper>();
     private static  final String BASE_URL_SP = "http://192.168.1.62/androidwebservice/sanpham.php";
 
+    int idSP=0;
+    String Tittle = "";
+    int price=0;
+    String Image = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
+        if(MainActivity.cartArrayList != null)
+        {
+            pendingSMSCount = MainActivity.cartArrayList.size();
+        }
         anhxa();
         setSupportActionBar(toolbar);
         getInfomation();
         getSanPham();
+        EvenButton();
+        SetQty();
     }
+
+    private void SetQty() {
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int sl = Integer.parseInt(soluong.getText().toString());
+                if(sl > 1 )
+                    soluong.setText(""+ (sl-1));
+                else
+                    soluong.setText("1");
+            }
+        });
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int sl = Integer.parseInt(soluong.getText().toString());
+
+                if(sl < 9)
+                    soluong.setText(""+ (sl+1));
+                else
+                    soluong.setText("9");
+
+            }
+        });
+    }
+
+    private void EvenButton() {
+        addCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(MainActivity.cartArrayList.size() > 0 ){
+                    int solg = Integer.parseInt(soluong.getText().toString());
+                    boolean exits = false ;
+                    for(int i = 0 ; i < MainActivity.cartArrayList.size(); i++){
+                        if(MainActivity.cartArrayList.get(i).getIdSP() == idSP){
+                            MainActivity.cartArrayList.get(i).setSoLuong(MainActivity.cartArrayList.get(i).getSoLuong() + solg);
+                            MainActivity.cartArrayList.get(i).setGiaSP(price * MainActivity.cartArrayList.get(i).getSoLuong());
+                            exits = true;
+
+                        }
+                    }
+                    if(exits == false){
+                        int sl = Integer.parseInt(soluong.getText().toString());
+                        long Giamoi = sl * price ;
+                        MainActivity.cartArrayList.add(new Cart(idSP,Tittle,Giamoi,Image,sl));
+
+                    }
+                }else{
+                    int sl = Integer.parseInt(soluong.getText().toString());
+                    long Giamoi = sl * price ;
+                    MainActivity.cartArrayList.add(new Cart(idSP,Tittle,Giamoi,Image,sl));
+                    pendingSMSCount = MainActivity.cartArrayList.size();
+
+                }
+
+                Intent intent = new Intent(getApplicationContext(),CartActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
     private void getSanPham(){
         NumberFormat formatter = new DecimalFormat("###,###,###");
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -74,7 +148,7 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
                                 phone.setTitle(object.getString("Tittle"));
                                 phone.setImage(object.getString("HinhAnh"));
                                 phone.setNote(object.getString("UuDai"));
-                                phone.setPrice(formatter.format(object.getInt("Gia"))+" VNĐ");
+                                phone.setPrice(formatter.format(object.getInt("Gia")));
                                 phone.setRate(object.getInt("SoDanhGia")+" đánh giá");
                                 phone.setSizemanhinh(object.getString("size"));
                                 phone.setLoaimanhinh(object.getString("loai"));
@@ -105,10 +179,7 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         queue.add(jsonArrayRequest);
     }
     private void getInfomation(){
-        int idSP=0;
-        String Tittle = "";
-        String price="";
-        String Image = "";
+
         String size = "";
         String loai = "";
         String ram = "";
@@ -118,7 +189,7 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         idSP = phone.getIdSP();
         Tittle = phone.getTitle();
         Image = phone.getImage();
-        price  = phone.getPrice();
+        price  = phone.getGiaInt();
         size = phone.getSizemanhinh();
         loai = phone.getLoaimanhinh();
         ram = phone.getRam();
@@ -127,7 +198,7 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
 
         tvTen.setText(Tittle);
         DecimalFormat format = new DecimalFormat("###,###,###");
-        tvGia.setText(price);
+        tvGia.setText(format.format(price)+" VNĐ");
         Glide.with(getApplicationContext()).load(Image).into(imageView);
         tvsize.setText(size);
         tvloai.setText(loai);
@@ -135,6 +206,7 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         tvrom.setText(rom);
         tvpin.setText(pin);
     }
+
     private void anhxa(){
         tvTen = findViewById(R.id.tvtensp);
         tvGia = findViewById(R.id.tvgia);
@@ -146,6 +218,10 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         tvram = findViewById(R.id.ram);
         tvrom = findViewById(R.id.rom);
         tvpin = findViewById(R.id.pin);
+        addCart = findViewById(R.id.add_cart);
+        soluong = findViewById(R.id.btslg);
+       plus    = findViewById(R.id.cong);
+        minus = findViewById(R.id.tru);
 
     }
     @Override
@@ -177,13 +253,8 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         int id = item.getItemId();
         switch (id){
             case  R.id.actioncart:
-                if(islogin!=false ){
                     Intent intent = new Intent(ProductDetailActivity.this, CartActivity.class);
                     startActivity(intent);
-                }else{
-                    Intent intent = new Intent(ProductDetailActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
                 break;
             default:
                 break;

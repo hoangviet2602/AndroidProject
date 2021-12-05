@@ -1,7 +1,6 @@
 package com.example.test;
 
 import static com.example.test.MainActivity.islogin;
-import static com.example.test.MainActivity.pendingSMSCount;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -82,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONObject object = jsonArray.getJSONObject(i);
 
                                 idUser = object.getInt("idUser");
-                                pendingSMSCount = 2;
+                                //pendingSMSCount = MainActivity.cartArrayList.size();
 
                                 User user = new User();
                                 user.setIdUser(object.getInt("idUser"));

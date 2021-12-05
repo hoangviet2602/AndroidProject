@@ -3,6 +3,7 @@ package com.example.test;
 import static com.example.test.MainActivity.islogin;
 import static com.example.test.MainActivity.pendingSMSCount;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -47,12 +49,14 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
     TextView txtgoHome;
     TextView smsCountTxt;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        Anhxa();
 
-        bottomNavigationView = findViewById(R.id.bottom_navigator);
+
         bottomNavigationView.setSelectedItemId(R.id.item);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -63,8 +67,9 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
                             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                             overridePendingTransition(0,0);
                         }else{
-                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                            overridePendingTransition(0,0);
+                            //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            //overridePendingTransition(0,0);
+                            DialogSubmit();
                         }
                         return true;
                     case R.id.home:
@@ -78,8 +83,9 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
                             startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
                             overridePendingTransition(0,0);
                         }else{
-                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                            overridePendingTransition(0,0);
+                            //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            //overridePendingTransition(0,0);
+                            DialogSubmit();
                         }
                         return true;
                 }
@@ -87,27 +93,50 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
             }
         });
 
-        toolbar = findViewById(R.id.toolbarCategory);
+
         setSupportActionBar(toolbar);
 
 
         mlistphoto = getListPhoto();
-        viewPager = findViewById(R.id.viewpagerC);
-        circleIndicator = findViewById(R.id.circle_indicatorC);
+
+
         photoAdapter = new PhotoAdapter(this,mlistphoto );
         viewPager.setAdapter(photoAdapter);
         circleIndicator.setViewPager(viewPager);
         photoAdapter.registerDataSetObserver(circleIndicator.getDataSetObserver());
 
-        itemRecycler5 = findViewById(R.id.my_recyclerItem);
+
         itemRecycler5();
         itemRecycler6 = findViewById(R.id.recyclerPrice);
         itemRecycler6();
 
-        phoneRecyclerS = findViewById(R.id.recyclerSmallPhone);
         phoneRecyclerS();
 
-        txtgoHome = findViewById(R.id.gotoHome);
+        GoGome();
+
+
+    }
+    private void DialogSubmit(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Thông báo");
+        //alert.setIcon(R.);
+        alert.setMessage("Bạn cần đăng nhập để xem thông báo");
+
+        alert.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            }
+        });
+        alert.setNegativeButton("Huy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        alert.show();
+    }
+    private void GoGome() {
         txtgoHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,6 +144,21 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
                 startActivity(intent);
             }
         });
+    }
+
+    private void Anhxa() {
+        if(MainActivity.cartArrayList != null)
+        {
+            pendingSMSCount = MainActivity.cartArrayList.size();
+        }
+        bottomNavigationView = findViewById(R.id.bottom_navigator);
+        toolbar = findViewById(R.id.toolbarCategory);
+        viewPager = findViewById(R.id.viewpagerC);
+        itemRecycler5 = findViewById(R.id.my_recyclerItem);
+        phoneRecyclerS = findViewById(R.id.recyclerSmallPhone);
+        circleIndicator = findViewById(R.id.circle_indicatorC);
+        txtgoHome = findViewById(R.id.gotoHome);
+
     }
 
 
@@ -239,13 +283,10 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
         int id = item.getItemId();
         switch (id){
             case  R.id.actioncart:
-                if(islogin!=false ){
+
                     Intent intent = new Intent(CategoryActivity.this, CartActivity.class);
                     startActivity(intent);
-                }else{
-                    Intent intent = new Intent(CategoryActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
+
                 break;
             default:
                 break;

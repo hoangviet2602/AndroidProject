@@ -1,94 +1,119 @@
 package pk_cart;
 
+import static com.example.test.CartActivity.EventUntil;
+
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
+import com.example.test.MainActivity;
 import com.example.test.R;
 
 import java.text.DecimalFormat;
-import java.util.List;
+import java.util.ArrayList;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
-    public int money = 0;
-    List<Cart> cartList;
+public class CartAdapter extends BaseAdapter {
     Context context;
-    final private CartAdapter.ListItemClickListener mOnClickListener;
+    ArrayList<Cart> cartArrayList;
 
-    public CartAdapter(List<Cart> cartList, Context context, CartAdapter.ListItemClickListener mOnClickListener) {
-        this.cartList = cartList;
+    public CartAdapter(Context context, ArrayList<Cart> cartArrayList) {
         this.context = context;
-        this.mOnClickListener = mOnClickListener;
-    }
-
-
-
-    @NonNull
-    @Override
-    public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemcart,parent,false);
-        return new CartViewHolder(itemView);
+        this.cartArrayList = cartArrayList;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-
-        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        //holder.img_cart.setImageResource(cartList.get(position).getImage());
-
-        Glide.with(context).load(cartList.get(position).getImage()).into(holder.img_cart);
-        Glide.with(context).load(cartList.get(position).getImgplus()).into(holder.imgplus);
-        Glide.with(context).load(cartList.get(position).getImgminus()).into(holder.imgminus);
-        holder.tittle_cart.setText(cartList.get(position).getTittle());
-        holder.price_cart.setText(decimalFormat.format(cartList.get(position).getPrice()));
-        holder.note_card.setText(cartList.get(position).getNote());
-        holder.quanlity.setText((cartList.get(position).getQuanlity()));
-        holder.delete.setText(cartList.get(position).getDelete());
-
-        money += cartList.get(position).getPrice();
-        Intent intent = new Intent("MyTotalAmount");
-        intent.putExtra("totalAmount",money);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-
-
-
-    }
-    public interface ListItemClickListener {
-        void onphoneListClick(int clickedItemIndex);
+    public int getCount() {
+        return cartArrayList.size();
     }
 
     @Override
-    public int getItemCount() {
-
-        return cartList.size();
+    public Object getItem(int i) {
+        return cartArrayList.get(i);
+    }
+    public class ViewHolder{
+        public TextView txtTengiohang;
+        public  TextView txtGiagiohang;
+        public TextView txtSoluong;
+        public ImageView imggiohang;
+        public ImageButton btnplus,btnminus;
+    }
+    @Override
+    public long getItemId(int i) {
+        return 0;
     }
 
-    class CartViewHolder extends RecyclerView.ViewHolder{
-        ImageView img_cart,imgplus,imgminus;
-        TextView   tittle_cart,price_cart,note_card,delete,quanlity;
-        public CartViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            img_cart = itemView.findViewById(R.id.img_cart);
-            tittle_cart = itemView.findViewById(R.id.cart_name);
-            price_cart = itemView.findViewById(R.id.cart_price);
-            note_card =  itemView.findViewById(R.id.cart_note);
-
-            imgplus = itemView.findViewById(R.id.btnplus);
-            imgminus = itemView.findViewById(R.id.btnminus);
-            delete = itemView.findViewById(R.id.txtdelete);
-            quanlity = itemView.findViewById(R.id.txtquanlity);
-
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        ViewHolder viewHolder = null;
+        if(view == null){
+            viewHolder = new ViewHolder();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view =inflater.inflate(R.layout.itemcart,null);
+            viewHolder.txtTengiohang = view.findViewById(R.id.cart_name);
+            viewHolder.txtGiagiohang = view.findViewById(R.id.cart_price);
+            viewHolder.imggiohang = view.findViewById(R.id.img_cart);
+            viewHolder.txtSoluong = view.findViewById(R.id.txtquanlity);
+            viewHolder.btnplus = view.findViewById(R.id.btnplus);
+            viewHolder.btnminus = view.findViewById(R.id.btnminus);
+            view.setTag(viewHolder);
+        }else{
+            viewHolder = (ViewHolder) view.getTag();
         }
+        Cart cart = (Cart) getItem(i);
+        viewHolder.txtTengiohang.setText(cart.getTenSP());
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        viewHolder.txtGiagiohang.setText(decimalFormat.format(cart.getGiaSP()) + " VNĐ");
+        viewHolder.txtSoluong.setText(cart.getSoLuong()+"");
+        Glide.with(context).load(cart.getHinhAnh()).into(viewHolder.imggiohang);
+
+
+        ViewHolder finalViewHolder = viewHolder;
+        viewHolder.btnplus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int slmoinhat = Integer.parseInt(finalViewHolder.txtSoluong.getText().toString())+1;
+                int slht = MainActivity.cartArrayList.get(i).getSoLuong();
+                long giaht = MainActivity.cartArrayList.get(i).getGiaSP();
+                MainActivity.cartArrayList.get(i).setSoLuong(slmoinhat);
+                long giamoi = (giaht * slmoinhat) / slht;
+                MainActivity.cartArrayList.get(i).setGiaSP(giamoi);
+                DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+                finalViewHolder.txtGiagiohang.setText(decimalFormat.format(giamoi) + " VNĐ");
+
+                EventUntil();
+                finalViewHolder.txtSoluong.setText(String.valueOf(slmoinhat));
+            }
+        });
+        viewHolder.btnminus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int slmoinhat = Integer.parseInt(finalViewHolder.txtSoluong.getText().toString())-1;
+                int slht = MainActivity.cartArrayList.get(i).getSoLuong();
+                long giaht = MainActivity.cartArrayList.get(i).getGiaSP();
+                MainActivity.cartArrayList.get(i).setSoLuong(slmoinhat);
+                long giamoi = (giaht * slmoinhat) / slht;
+                MainActivity.cartArrayList.get(i).setGiaSP(giamoi);
+                DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+                finalViewHolder.txtGiagiohang.setText(decimalFormat.format(giamoi) + " VNĐ");
+
+                EventUntil();
+                if(slmoinhat < 1)
+                    MainActivity.cartArrayList.remove(i);
+
+
+                else
+                    finalViewHolder.txtSoluong.setText(String.valueOf(slmoinhat));
+
+            }
+        });
+
+        return view;
     }
 
 
