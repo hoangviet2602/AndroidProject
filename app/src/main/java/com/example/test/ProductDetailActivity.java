@@ -1,7 +1,6 @@
 package com.example.test;
 
 
-
 import static com.example.test.MainActivity.pendingSMSCount;
 
 import android.content.Intent;
@@ -11,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,6 +47,7 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
     TextView tvTen,tvGia,tvsize,tvloai,tvram,tvrom,tvpin,soluong;
     Button addCart ;
     ImageView imageView;
+    ImageButton minus,plus;
     ArrayList<phonehelper> Phones = new ArrayList<phonehelper>();
     private static  final String BASE_URL_SP = "http://192.168.1.62/androidwebservice/sanpham.php";
 
@@ -68,6 +69,32 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         getInfomation();
         getSanPham();
         EvenButton();
+        SetQty();
+    }
+
+    private void SetQty() {
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int sl = Integer.parseInt(soluong.getText().toString());
+                if(sl > 1 )
+                    soluong.setText(""+ (sl-1));
+                else
+                    soluong.setText("1");
+            }
+        });
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int sl = Integer.parseInt(soluong.getText().toString());
+
+                if(sl < 9)
+                    soluong.setText(""+ (sl+1));
+                else
+                    soluong.setText("9");
+
+            }
+        });
     }
 
     private void EvenButton() {
@@ -179,6 +206,7 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         tvrom.setText(rom);
         tvpin.setText(pin);
     }
+
     private void anhxa(){
         tvTen = findViewById(R.id.tvtensp);
         tvGia = findViewById(R.id.tvgia);
@@ -192,6 +220,8 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         tvpin = findViewById(R.id.pin);
         addCart = findViewById(R.id.add_cart);
         soluong = findViewById(R.id.btslg);
+       plus    = findViewById(R.id.cong);
+        minus = findViewById(R.id.tru);
 
     }
     @Override

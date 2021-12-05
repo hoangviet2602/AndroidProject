@@ -16,10 +16,11 @@ import pk_cart.CartAdapter;
 
 public class CartActivity extends AppCompatActivity {
     ListView listViewCart;
-    TextView Tongtien;
+    public static TextView Tongtien;
     Button Muahang;
-    CartAdapter cartAdapter;
+    public static CartAdapter cartAdapter;
     ImageButton back;
+    ImageButton btnplus, btnminus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +28,13 @@ public class CartActivity extends AppCompatActivity {
         Anhxa();
         EventUntil();
         Back();
+        SetupQty();
 
 
+    }
 
+    private void SetupQty() {
+        //btnplus.setOnClickListener();
     }
 
     private void Back() {
@@ -44,7 +49,7 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    private void EventUntil() {
+    public static void EventUntil() {
         long tongtien = 0;
         for(int i = 0 ; i < MainActivity.cartArrayList.size(); i++){
             tongtien += MainActivity.cartArrayList.get(i).getGiaSP();
@@ -61,6 +66,8 @@ public class CartActivity extends AppCompatActivity {
         cartAdapter = new CartAdapter(CartActivity.this,MainActivity.cartArrayList);
         listViewCart.setAdapter(cartAdapter);
         back = findViewById(R.id.back);
+        btnminus = findViewById(R.id.btnminus);
+        btnplus = findViewById(R.id.btnplus);
     }
 
 

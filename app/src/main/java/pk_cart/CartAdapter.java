@@ -1,5 +1,7 @@
 package pk_cart;
 
+import static com.example.test.CartActivity.EventUntil;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.test.MainActivity;
 import com.example.test.R;
 
 import java.text.DecimalFormat;
@@ -34,7 +37,9 @@ public class CartAdapter extends BaseAdapter {
         return cartArrayList.get(i);
     }
     public class ViewHolder{
-        public TextView txtTengiohang,txtGiagiohang,txtSoluong;
+        public TextView txtTengiohang;
+        public  TextView txtGiagiohang;
+        public TextView txtSoluong;
         public ImageView imggiohang;
         public ImageButton btnplus,btnminus;
     }
@@ -68,6 +73,48 @@ public class CartAdapter extends BaseAdapter {
         Glide.with(context).load(cart.getHinhAnh()).into(viewHolder.imggiohang);
 
 
+        ViewHolder finalViewHolder = viewHolder;
+        viewHolder.btnplus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int slmoinhat = Integer.parseInt(finalViewHolder.txtSoluong.getText().toString())+1;
+                int slht = MainActivity.cartArrayList.get(i).getSoLuong();
+                long giaht = MainActivity.cartArrayList.get(i).getGiaSP();
+                MainActivity.cartArrayList.get(i).setSoLuong(slmoinhat);
+                long giamoi = (giaht * slmoinhat) / slht;
+                MainActivity.cartArrayList.get(i).setGiaSP(giamoi);
+                DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+                finalViewHolder.txtGiagiohang.setText(decimalFormat.format(giamoi) + " VNĐ");
+
+                EventUntil();
+                finalViewHolder.txtSoluong.setText(String.valueOf(slmoinhat));
+            }
+        });
+        viewHolder.btnminus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int slmoinhat = Integer.parseInt(finalViewHolder.txtSoluong.getText().toString())-1;
+                int slht = MainActivity.cartArrayList.get(i).getSoLuong();
+                long giaht = MainActivity.cartArrayList.get(i).getGiaSP();
+                MainActivity.cartArrayList.get(i).setSoLuong(slmoinhat);
+                long giamoi = (giaht * slmoinhat) / slht;
+                MainActivity.cartArrayList.get(i).setGiaSP(giamoi);
+                DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+                finalViewHolder.txtGiagiohang.setText(decimalFormat.format(giamoi) + " VNĐ");
+
+                EventUntil();
+                if(slmoinhat < 1)
+                    MainActivity.cartArrayList.remove(i);
+
+
+                else
+                    finalViewHolder.txtSoluong.setText(String.valueOf(slmoinhat));
+
+            }
+        });
+
         return view;
     }
+
+
 }
