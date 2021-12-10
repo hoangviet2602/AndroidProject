@@ -1,5 +1,6 @@
 package com.example.test;
 
+import static com.example.test.MainActivity.http;
 import static com.example.test.MainActivity.islogin;
 
 import android.content.Intent;
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtEmail,txtPass;
     public static ArrayList<User> Users = new ArrayList<User>();
     public static int idUser;
-    private String URL = "http://192.168.1.62/androidwebservice/login.php";
+    private String URL = http+"androidwebservice/login.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                                 startActivity(intent);
                                 finish();
-
 
                             }
 

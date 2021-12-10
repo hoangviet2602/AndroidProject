@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
     Toolbar toolbar;
 
     public static boolean islogin = false;
-
+    public static String http  = "http://192.168.44.1/"; //Thay đổi  Địa chỉ ip của máy code mới chạy dc
     TextView smsCountTxt;
     public static int pendingSMSCount = 0;
-    private static  final String BASE_URL = "http://192.168.1.62/androidwebservice/danhmuc.php";
-    private static  final String BASE_URL_SP = "http://192.168.1.62/androidwebservice/sanpham.php";
+    private static  final String BASE_URL = http+"androidwebservice/danhmuc.php";
+    private static  final String BASE_URL_SP = http+"androidwebservice/sanpham.php";
     public static ArrayList<Cart>  cartArrayList;
     ArrayList<Item> itemDMs = new ArrayList<Item>();
     ArrayList<phonehelper> Phones = new ArrayList<phonehelper>();
