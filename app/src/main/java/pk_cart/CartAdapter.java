@@ -36,6 +36,7 @@ public class CartAdapter extends BaseAdapter {
     public Object getItem(int i) {
         return cartArrayList.get(i);
     }
+
     public class ViewHolder{
         public TextView txtTengiohang;
         public  TextView txtGiagiohang;

@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
     Toolbar toolbar;
 
     public static boolean islogin = false;
-    public static String http  = "http://192.168.44.1/"; //Thay đổi  Địa chỉ ip của máy code mới chạy dc
+    public static String http  = "http://192.168.1.102/"; //Thay đổi  Địa chỉ ip của máy code mới chạy dc
     TextView smsCountTxt;
     public static int pendingSMSCount = 0;
     private static  final String BASE_URL = http+"androidwebservice/danhmuc.php";
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
                                     Item item = new Item();
                                     item.setId(object.getInt("idDM"));
                                     item.setTitle(object.getString("TenDM"));
-                                    item.setImage(object.getString("HinhAnh"));
+                                    item.setImage(http+ object.getString("HinhAnh"));
                                     itemDMs.add(item);
                             }catch (Exception e){
                                 e.printStackTrace();
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
                                 phone.setIdDM(object.getInt("idDM"));
                                 phone.setIdSP(object.getInt("idSP"));
                                 phone.setTitle(object.getString("Tittle"));
-                                phone.setImage(object.getString("HinhAnh"));
+                                phone.setImage(http+ object.getString("HinhAnh"));
                                 phone.setNote(object.getString("UuDai"));
                                 phone.setPrice(formatter.format(object.getInt("Gia"))+" VNĐ");
                                 phone.setGiaInt(object.getInt("Gia"));
