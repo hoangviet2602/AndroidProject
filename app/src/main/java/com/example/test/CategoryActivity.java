@@ -112,7 +112,7 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
 
         phoneRecyclerS();
 
-        GoGome();
+
 
 
     }
@@ -136,15 +136,7 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
         });
         alert.show();
     }
-    private void GoGome() {
-        txtgoHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CategoryActivity.this,MainActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
+
 
     private void Anhxa() {
         if(MainActivity.cartArrayList != null)
@@ -157,7 +149,7 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
         itemRecycler5 = findViewById(R.id.my_recyclerItem);
         phoneRecyclerS = findViewById(R.id.recyclerSmallPhone);
         circleIndicator = findViewById(R.id.circle_indicatorC);
-        txtgoHome = findViewById(R.id.gotoHome);
+
 
     }
 

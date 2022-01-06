@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Thông báo");
         //alert.setIcon(R.);
-        alert.setMessage("Bạn cần đăng nhập để xem thông báo");
+        alert.setMessage("Bạn cần đăng nhập để sử dụng chức năng này");
 
         alert.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
             @Override

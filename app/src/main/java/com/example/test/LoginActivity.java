@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     public static ArrayList<User> Users = new ArrayList<User>();
     public static int idUser;
     private String URL = http+"androidwebservice/login.php";
+    public static  User user = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,13 +82,17 @@ public class LoginActivity extends AppCompatActivity {
                             for(int i = 0 ; i < jsonArray.length();i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
 
-                                idUser = object.getInt("idUser");
+                                //idUser = object.getInt("idUser");
                                 //pendingSMSCount = MainActivity.cartArrayList.size();
 
-                                User user = new User();
+                                user.setIdUser(object.getInt("idUser"));
                                 user.setIdUser(object.getInt("idUser"));
                                 user.setUsername(object.getString("Username").trim());
                                 user.setPass(object.getString("Pass").trim());
+                                user.setPhone(object.getString("phone").trim());
+                                user.setDob(object.getString("dob").trim());
+                                user.setAddress(object.getString("address").trim());
+                                user.setFullname(object.getString("fullname").trim());
                                 Users.add(user);
 
 

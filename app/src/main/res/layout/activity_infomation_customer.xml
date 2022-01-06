@@ -33,16 +33,17 @@
         android:orientation="vertical">
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingBottom="10dp">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -56,6 +57,7 @@
 
 
                         <TextView
+                            android:id="@+id/txtwelcome"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -87,7 +89,7 @@
                         android:padding="15dp">
 
                         <LinearLayout
-                            android:layout_width="300dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/vie_bg"
                             android:orientation="horizontal">
@@ -100,7 +102,9 @@
                                 android:hint="Thông tin tài khoản"
                                 android:textAlignment="center"
                                 android:textAllCaps="true"
-                                android:textSize="18dp"></EditText>
+                                android:textSize="18dp">
+
+                            </EditText>
 
                         </LinearLayout>
 
@@ -113,13 +117,18 @@
                             <ImageView
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:src="@drawable/user_b"></ImageView>
+                                android:src="@drawable/user_b">
+
+                            </ImageView>
 
                             <EditText
                                 android:id="@+id/txtName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Họ và tên :Nguyễn Quốc Toản">
+                                android:layout_width="280dp"
+                                android:layout_height="50dp"
+                                android:paddingLeft="15dp"
+                                android:background="@drawable/round_border2"
+                                android:text="Họ và tên :Nguyễn Quốc Toản"
+                                android:textColor="@color/black">
 
                             </EditText>
                         </LinearLayout>
@@ -133,12 +142,20 @@
                             <ImageView
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:src="@drawable/phone"></ImageView>
+                                android:src="@drawable/phone">
+
+                            </ImageView>
 
                             <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Số điện thoại: 052*******"></EditText>
+                                android:id="@+id/txtPhone"
+                                android:layout_width="280dp"
+                                android:layout_height="50dp"
+                                android:paddingLeft="15dp"
+                                android:background="@drawable/round_border2"
+                                android:textColor="@color/black"
+                                android:text="Số điện thoại: 052*******">
+
+                            </EditText>
                         </LinearLayout>
 
                         <LinearLayout
@@ -150,12 +167,20 @@
                             <ImageView
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:src="@drawable/birthday"></ImageView>
+                                android:src="@drawable/birthday">
+
+                            </ImageView>
 
                             <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Ngày sinh: **/**/****"></EditText>
+                                android:id="@+id/txtDob"
+                                android:layout_width="280dp"
+                                android:layout_height="50dp"
+                                android:paddingLeft="15dp"
+                                android:background="@drawable/round_border2"
+                                android:textColor="@color/black"
+                                android:text="Ngày sinh: **/**/****">
+
+                            </EditText>
                         </LinearLayout>
 
                         <LinearLayout
@@ -167,12 +192,20 @@
                             <ImageView
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:src="@drawable/lich"></ImageView>
+                                android:src="@drawable/lich">
+
+                            </ImageView>
 
                             <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Ngày tham gia **/**/****"></EditText>
+                                android:id="@+id/txtAddress"
+                                android:layout_width="280dp"
+                                android:layout_height="50dp"
+                                android:paddingLeft="15dp"
+                                android:background="@drawable/round_border2"
+                                android:textColor="@color/black"
+                                android:text="Địa chỉ: ">
+
+                            </EditText>
                         </LinearLayout>
 
                         <LinearLayout
@@ -184,12 +217,19 @@
                             <ImageView
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:src="@drawable/huanchuong"></ImageView>
+                                android:src="@drawable/huanchuong">
+
+                            </ImageView>
 
                             <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Xệp hạng members: VIP"></EditText>
+                                android:layout_width="280dp"
+                                android:layout_height="50dp"
+                                android:paddingLeft="15dp"
+                                android:background="@drawable/round_border2"
+                                android:textColor="@color/black"
+                                android:text="Xệp hạng members: VIP">
+
+                            </EditText>
                         </LinearLayout>
 
                         <LinearLayout
@@ -201,12 +241,19 @@
                             <ImageView
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:src="@drawable/thanhtoan"></ImageView>
+                                android:src="@drawable/thanhtoan">
+
+                            </ImageView>
 
                             <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Tổng tiền thanh toán: 0đ"></EditText>
+                                android:layout_width="280dp"
+                                android:layout_height="50dp"
+                                android:paddingLeft="15dp"
+                                android:background="@drawable/round_border2"
+                                android:textColor="@color/black"
+                                android:text="Tổng tiền thanh toán: 0đ">
+
+                            </EditText>
                         </LinearLayout>
 
 

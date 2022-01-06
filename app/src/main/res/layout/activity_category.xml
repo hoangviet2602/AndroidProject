@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
@@ -23,22 +23,13 @@
             app:logo="@drawable/s"
             app:title="Phone"
             app:titleTextAppearance="@style/Toolbar.TitleText"
-            app:titleTextColor="@color/white">
-        </androidx.appcompat.widget.Toolbar>
-        <TextView
-            android:id="@+id/gotoHome"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="Trang chủ/ Điện thoại"
-            android:paddingTop="5dp"
-            android:paddingLeft="5dp"
-            android:textSize="16dp" />
+            app:titleTextColor="@color/white"></androidx.appcompat.widget.Toolbar>
+
     </LinearLayout>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="50dp"
         android:layout_above="@+id/bottom_navigator">
     <LinearLayout
         android:layout_width="match_parent"

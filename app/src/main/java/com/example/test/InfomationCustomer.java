@@ -1,6 +1,7 @@
 package com.example.test;
 
 import static com.example.test.LoginActivity.idUser;
+import static com.example.test.LoginActivity.user;
 import static com.example.test.MainActivity.islogin;
 import static com.example.test.MainActivity.pendingSMSCount;
 
@@ -17,7 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class InfomationCustomer extends AppCompatActivity {
     Toolbar toolbar;
-    TextView smsCountTxt,txtName;
+    TextView smsCountTxt,txtName,txtPhone,txtDob,txtAddress,txtwelcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +27,9 @@ public class InfomationCustomer extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbarinfo);
         setSupportActionBar(toolbar);
+        anhxa();
 
-        txtName = findViewById(R.id.txtName);
-        txtName.setText(""+idUser);
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,6 +52,24 @@ public class InfomationCustomer extends AppCompatActivity {
             });
         }
         return true;
+    }
+    private  void anhxa(){
+        txtName = findViewById(R.id.txtName);
+        txtPhone = findViewById(R.id.txtPhone);
+        txtDob = findViewById(R.id.txtDob);
+        txtAddress = findViewById(R.id.txtAddress);
+        txtwelcome = findViewById(R.id.txtwelcome);
+
+        txtName.setFocusable(false);
+        txtPhone.setFocusable(false);
+        txtDob.setFocusable(false);
+        txtAddress.setFocusable(false);
+
+        txtName.setText("Họ và tên: " + user.getFullname());
+        txtPhone.setText("Số điện thoại: " + user.getPhone());
+        txtDob.setText("Ngày sinh: " + user.getDob());
+        txtAddress.setText("Địa chỉ: " + user.getAddress());
+        txtwelcome.setText("Xin chào, " + user.getFullname());
     }
     private void setupBadge() {
         if (smsCountTxt != null) {

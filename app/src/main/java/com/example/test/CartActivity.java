@@ -1,10 +1,14 @@
 package com.example.test;
 
+import static com.example.test.LoginActivity.user;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +25,7 @@ public class CartActivity extends AppCompatActivity {
     public static CartAdapter cartAdapter;
     ImageButton back;
     ImageButton btnplus, btnminus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +35,19 @@ public class CartActivity extends AppCompatActivity {
         Back();
         SetupQty();
 
+        Muahang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(user.getFullname() != null){
+                    Intent intent = new Intent(CartActivity.this,CheckoutActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(CartActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
     }
 
