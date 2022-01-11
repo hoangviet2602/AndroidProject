@@ -64,7 +64,7 @@
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/drawable/round_border2.xml" value="0.23981481481481481" />
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/drawable/wave.xml" value="0.23981481481481481" />
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/activity_cart.xml" value="0.25052083333333336" />
-        <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/activity_category.xml" value="0.25052083333333336" />
+        <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/activity_category.xml" value="0.176" />
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/activity_checkout.xml" value="0.25052083333333336" />
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/activity_infomation_customer.xml" value="0.25052083333333336" />
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/activity_login.xml" value="0.25052083333333336" />
@@ -75,6 +75,7 @@
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/dialog_edit_address.xml" value="0.25104166666666666" />
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/item_checkout.xml" value="0.2625" />
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/itemcart.xml" value="0.25052083333333336" />
+        <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/itemprice.xml" value="0.264" />
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/itemrecyclercard.xml" value="0.24094202898550723" />
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/phonerecyclercard.xml" value="0.24094202898550723" />
         <entry key="..\:/IT/Adroid/ShopPhone/app/src/main/res/layout/smallphonerecyclercard.xml" value="0.24909420289855072" />

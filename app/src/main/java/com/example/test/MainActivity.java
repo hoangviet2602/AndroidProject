@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
     private Timer mTimer;
     RecyclerView.Adapter adapter;
     Toolbar toolbar;
-
+    EditText edit_find;
     public static boolean islogin = false;
     public static String http  = "http://192.168.1.102/"; //Thay đổi  Địa chỉ ip của máy code mới chạy dc
     TextView smsCountTxt;
@@ -131,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
 
         setSupportActionBar(toolbar);
 
+
     }
 
     private void Anhxa() {
@@ -147,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         phoneRecycler4 = findViewById(R.id.my_recycler3);
         viewPager = findViewById(R.id.viewpager);
         toolbar = findViewById(R.id.toolbarmain);
+        edit_find = findViewById(R.id.edit_find);
     }
     private void DialogSubmit(){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CartActivity"
+
     android:orientation="vertical">
    <LinearLayout
        android:layout_width="match_parent"
@@ -47,7 +48,7 @@
         android:id="@+id/layout1"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:background="@drawable/layout"
+        android:background="@drawable/none_border"
         android:layout_marginBottom="10dp"
         android:layout_height="35dp">
         <TextView
@@ -57,7 +58,7 @@
             android:text="Tổng tiền"
             android:textStyle="bold"
             android:textSize="25dp"
-            android:textColor="#E81313"/>
+            android:textColor="@color/black"/>
         <TextView
             android:id="@+id/txtTongTien"
             android:layout_width="wrap_content"
@@ -71,12 +72,12 @@
     </LinearLayout>
 
         <Button
-
+            android:layout_gravity="bottom"
             android:layout_marginTop="10dp"
             android:id="@+id/btnBuy"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+
             android:text="Mua hàng"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"

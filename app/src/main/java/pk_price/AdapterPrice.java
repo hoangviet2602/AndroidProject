@@ -1,22 +1,42 @@
 
 package pk_price;
+import static com.example.test.MainActivity.http;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.test.CategoryActivity;
+import com.example.test.ProductDetailActivity;
 import com.example.test.R;
 import com.example.test.pk_Item.Item;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+
+import pk_HelperClassesS.adapterphoneS;
+import pk_HelperClassesS.phonehelperS;
 
 public class AdapterPrice extends RecyclerView.Adapter<AdapterPrice.ItemViewHold2>  {
 
@@ -49,17 +69,21 @@ public class AdapterPrice extends RecyclerView.Adapter<AdapterPrice.ItemViewHold
         holder.layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //Toast.makeText(mContext, "min "+itemhelper.getMin(), Toast.LENGTH_SHORT).show();
+                sortbyprice(itemhelper);
             }
         });
     }
-    private void onClickGoToDetail(Item itemhelper){
+
+    private void sortbyprice(Price price) {
         Intent intent = new Intent(mContext, CategoryActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("object",itemhelper);
+        bundle.putSerializable("data_price",price);
         intent.putExtras(bundle);
         mContext.startActivity(intent);
     }
+
+
 
     @Override
     public int getItemCount() {

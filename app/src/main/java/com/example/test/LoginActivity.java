@@ -82,8 +82,6 @@ public class LoginActivity extends AppCompatActivity {
                             for(int i = 0 ; i < jsonArray.length();i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
 
-                                //idUser = object.getInt("idUser");
-                                //pendingSMSCount = MainActivity.cartArrayList.size();
 
                                 user.setIdUser(object.getInt("idUser"));
                                 user.setIdUser(object.getInt("idUser"));
@@ -100,9 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                                 startActivity(intent);
                                 finish();
-
                             }
-
                         }
 
                     }catch(JSONException e){

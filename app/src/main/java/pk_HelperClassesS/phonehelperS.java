@@ -4,98 +4,179 @@ import java.io.Serializable;
 
 public class phonehelperS implements Serializable {
 
-    int imageS;
-    String titleS;
-    String priceS;
-    String rateS;
-    String noteS;
-    int starS;
-    int star2S;
-    int star3S;
-    int star4S;
+    int idDM;
+    int idSP;
+    int giaInt;
+    String image;
+    String title;
+    String price;
+    String rate;
+    String note;
+    String sizemanhinh,loaimanhinh,ram,rom,pin;
+    int star;
+    int star2;
+    int star3;
+    int star4;
 
-    public phonehelperS(int imageS, String titleS, String priceS, String rateS, String noteS, int starS, int star2S, int star3S, int star4S) {
-        this.imageS = imageS;
-        this.titleS = titleS;
-        this.priceS = priceS;
-        this.rateS = rateS;
-        this.noteS = noteS;
-        this.starS = starS;
-        this.star2S = star2S;
-        this.star3S = star3S;
-        this.star4S = star4S;
+    public phonehelperS() {
     }
 
-    public int getImageS() {
-        return imageS;
+    public phonehelperS(int idDM, int idSP, int giaInt, String image, String title, String price, String rate, String note, String sizemanhinh, String loaimanhinh, String ram, String rom, String pin, int star, int star2, int star3, int star4) {
+        this.idDM = idDM;
+        this.idSP = idSP;
+        this.giaInt = giaInt;
+        this.image = image;
+        this.title = title;
+        this.price = price;
+        this.rate = rate;
+        this.note = note;
+        this.sizemanhinh = sizemanhinh;
+        this.loaimanhinh = loaimanhinh;
+        this.ram = ram;
+        this.rom = rom;
+        this.pin = pin;
+        this.star = star;
+        this.star2 = star2;
+        this.star3 = star3;
+        this.star4 = star4;
     }
 
-    public void setImageS(int imageS) {
-        this.imageS = imageS;
+    public int getIdDM() {
+        return idDM;
     }
 
-    public String getTitleS() {
-        return titleS;
+    public void setIdDM(int idDM) {
+        this.idDM = idDM;
     }
 
-    public void setTitleS(String titleS) {
-        this.titleS = titleS;
+    public int getIdSP() {
+        return idSP;
     }
 
-    public String getPriceS() {
-        return priceS;
+    public void setIdSP(int idSP) {
+        this.idSP = idSP;
     }
 
-    public void setPriceS(String priceS) {
-        this.priceS = priceS;
+    public int getGiaInt() {
+        return giaInt;
     }
 
-    public String getRateS() {
-        return rateS;
+    public void setGiaInt(int giaInt) {
+        this.giaInt = giaInt;
     }
 
-    public void setRateS(String rateS) {
-        this.rateS = rateS;
+    public String getImage() {
+        return image;
     }
 
-    public String getNoteS() {
-        return noteS;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public void setNoteS(String noteS) {
-        this.noteS = noteS;
+    public String getTitle() {
+        return title;
     }
 
-    public int getStarS() {
-        return starS;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setStarS(int starS) {
-        this.starS = starS;
+    public String getPrice() {
+        return price;
     }
 
-    public int getStar2S() {
-        return star2S;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public void setStar2S(int star2S) {
-        this.star2S = star2S;
+    public String getRate() {
+        return rate;
     }
 
-    public int getStar3S() {
-        return star3S;
+    public void setRate(String rate) {
+        this.rate = rate;
     }
 
-    public void setStar3S(int star3S) {
-        this.star3S = star3S;
+    public String getNote() {
+        return note;
     }
 
-    public int getStar4S() {
-        return star4S;
+    public void setNote(String note) {
+        this.note = note;
     }
 
-    public void setStar4S(int star4S) {
-        this.star4S = star4S;
+    public String getSizemanhinh() {
+        return sizemanhinh;
     }
+
+    public void setSizemanhinh(String sizemanhinh) {
+        this.sizemanhinh = sizemanhinh;
+    }
+
+    public String getLoaimanhinh() {
+        return loaimanhinh;
+    }
+
+    public void setLoaimanhinh(String loaimanhinh) {
+        this.loaimanhinh = loaimanhinh;
+    }
+
+    public String getRam() {
+        return ram;
+    }
+
+    public void setRam(String ram) {
+        this.ram = ram;
+    }
+
+    public String getRom() {
+        return rom;
+    }
+
+    public void setRom(String rom) {
+        this.rom = rom;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
+    public int getStar() {
+        return star;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
+    }
+
+    public int getStar2() {
+        return star2;
+    }
+
+    public void setStar2(int star2) {
+        this.star2 = star2;
+    }
+
+    public int getStar3() {
+        return star3;
+    }
+
+    public void setStar3(int star3) {
+        this.star3 = star3;
+    }
+
+    public int getStar4() {
+        return star4;
+    }
+
+    public void setStar4(int star4) {
+        this.star4 = star4;
+    }
+
+
 }
 

@@ -27,8 +27,10 @@
             $index['idUser'] = $row['idUser'];
             $index['Username'] = $row['Username'];
             $index['Pass'] = $row['Pass'];
-           
-
+            $index['phone'] = $row['phone'];
+            $index['dob'] = $row['dob'];
+            $index['address'] = $row['address'];
+            $index['fullname'] = $row['fullname'];
             array_push($result['login'], $index);
 
             $result['success'] = "1";

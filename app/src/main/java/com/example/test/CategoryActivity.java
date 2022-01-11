@@ -1,15 +1,20 @@
 package com.example.test;
 
+import static com.example.test.MainActivity.http;
 import static com.example.test.MainActivity.islogin;
 import static com.example.test.MainActivity.pendingSMSCount;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -19,13 +24,33 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.test.pk_HelperClasses.adapterphone;
+import com.example.test.pk_HelperClasses.phonehelper;
+import com.example.test.pk_Item.Item;
 import com.example.test.pk_img_viewflper.Photo;
 import com.example.test.pk_img_viewflper.PhotoAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.relex.circleindicator.CircleIndicator;
 import pk_HelperClassesS.adapterphoneS;
@@ -46,10 +71,16 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
     private PhotoAdapter photoAdapter;
     RecyclerView.Adapter adapter;
     RecyclerView phoneRecyclerS;
-    TextView txtgoHome;
+    String idDM;
+    Item item;
     TextView smsCountTxt;
-
-
+    TextView txttenDM;
+    ArrayList<Price> itemlocationsC = new ArrayList<>();
+    RadioButton rdXemNhieu,rdGiathap,rdGiaCao,rdAll;
+    private static  final String BASE_URL_SP = http+"androidwebservice/sanpham.php";
+    private static  final String URL_Sort_Price = http+"androidwebservice/SortByPrice.php";
+    private String URL = http+"androidwebservice/getSPbyDM.php";
+    ArrayList<phonehelperS> Phones = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,13 +140,157 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
         itemRecycler5();
         itemRecycler6 = findViewById(R.id.recyclerPrice);
         itemRecycler6();
+        //getSanPham();
 
-        phoneRecyclerS();
+
+        radiobutton();
+        if(getIntent().getSerializableExtra("data_price") !=null){
+            sortbyPrice();
+        }else{
+            getSPbyDM();
+        }
 
 
 
 
     }
+    private void sortbyPrice(){
+            Price price = (Price) getIntent().getSerializableExtra("data_price");
+            sortPrice(price.getMin(),price.getMax());
+
+    }
+
+    private void sortPrice(int min,int max){
+        NumberFormat formatter = new DecimalFormat("###,###,###");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_Sort_Price, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Phones.clear();
+
+                try{
+                    JSONObject jsonObject  = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    JSONArray jsonArray = jsonObject.getJSONArray("login");
+                    if(success.equals("1")){
+
+                        for(int i = 0 ; i < jsonArray.length();i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+
+                            phonehelperS phone = new phonehelperS();
+                            phone.setIdDM(object.getInt("idDM"));
+                            phone.setIdSP(object.getInt("idSP"));
+                            phone.setTitle(object.getString("Tittle"));
+                            phone.setImage(http+ object.getString("HinhAnh"));
+                            phone.setNote(object.getString("UuDai"));
+                            phone.setPrice(formatter.format(object.getInt("Gia"))+" VNĐ");
+                            phone.setGiaInt(object.getInt("Gia"));
+                            phone.setRate(object.getInt("SoDanhGia")+" đánh giá");
+                            phone.setSizemanhinh(object.getString("size"));
+                            phone.setLoaimanhinh(object.getString("loai"));
+                            phone.setRam(object.getString("ram"));
+                            phone.setRom(object.getString("rom"));
+                            phone.setPin(object.getString("pin"));
+                            phone.setStar(R.drawable.star);
+                            phone.setStar2(R.drawable.star);
+                            phone.setStar3(R.drawable.star);
+                            phone.setStar4(R.drawable.star);
+                            Phones.add(phone);
+                        }
+                        phoneRecyclerS.setLayoutManager(new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false));
+                        //itemRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        adapter = new adapterphoneS(getApplicationContext(),Phones,CategoryActivity.this);
+                        phoneRecyclerS.setAdapter(adapter);
+                    }
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+                    //Toast.makeText(getApplicationContext(),"Error: " + e.toString(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),"Error: " + error.toString(),Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> data = new HashMap<>();
+                data.put("min", String.valueOf(min));
+                data.put("max", String.valueOf(max));
+                return data;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void radiobutton() {
+        rdGiaCao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(Phones, new Comparator<phonehelperS>() {
+
+                    @Override
+                    public int compare(phonehelperS phonehelperS, phonehelperS t1) {
+                        if (phonehelperS.getGiaInt() > t1.getGiaInt()) {
+                            return -1;
+                        } else {
+                            if (phonehelperS.getGiaInt() == t1.getGiaInt()) {
+                                return 0;
+                            } else {
+                                return 1;
+                            }
+                        }
+                    }
+                });
+                phoneRecyclerS.setLayoutManager(new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false));
+                //itemRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                adapter = new adapterphoneS(getApplicationContext(),Phones,CategoryActivity.this);
+                phoneRecyclerS.setAdapter(adapter);
+            }
+
+        });
+        rdGiathap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(Phones, new Comparator<phonehelperS>() {
+
+                    @Override
+                    public int compare(phonehelperS phonehelperS, phonehelperS t1) {
+                        if (phonehelperS.getGiaInt() < t1.getGiaInt()) {
+                            return -1;
+                        } else {
+                            if (phonehelperS.getGiaInt() == t1.getGiaInt()) {
+                                return 0;
+                            } else {
+                                return 1;
+                            }
+                        }
+                    }
+                });
+                phoneRecyclerS.setLayoutManager(new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false));
+                //itemRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                adapter = new adapterphoneS(getApplicationContext(),Phones,CategoryActivity.this);
+                phoneRecyclerS.setAdapter(adapter);
+            }
+        });
+        rdXemNhieu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSPbyDM();
+            }
+        });
+        rdAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSanPham();
+
+            }
+        });
+
+    }
+
     private void DialogSubmit(){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Thông báo");
@@ -149,43 +324,85 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
         itemRecycler5 = findViewById(R.id.my_recyclerItem);
         phoneRecyclerS = findViewById(R.id.recyclerSmallPhone);
         circleIndicator = findViewById(R.id.circle_indicatorC);
+        rdGiaCao = findViewById(R.id.rd_giacao);
+        rdGiathap = findViewById(R.id.rd_giathap);
+        rdXemNhieu = findViewById(R.id.rd_Xemnhieu);
+        rdAll = findViewById(R.id.rd_All);
+        txttenDM = findViewById(R.id.txttenDM);
 
 
-    }
-
-
-    private void phoneRecyclerS() {
-
-        phoneRecyclerS.setHasFixedSize(true);
-        //phoneRecycler2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        phoneRecyclerS.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false));
-        ArrayList<phonehelperS> phonelocations = new ArrayList<>();
-
-        phonelocations.add(new phonehelperS(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Giảm 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelperS(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Giảm 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelperS(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Giảm 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelperS(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Giảm 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelperS(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Giảm 1 triệu  ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelperS(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Giảm 1 triệu  ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelperS(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Giảm 1 triệu  ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-        phonelocations.add(new phonehelperS(R.drawable.iphon13, "iPhone 13 Pro Max 256GB I Chính hãng VN/A","19.990.000","13 đánh giá","Giảm 1 triệu ",R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star));
-
-        adapter = new adapterphoneS(this,phonelocations,this);
-        phoneRecyclerS.setAdapter(adapter);
+        if(getIntent().getSerializableExtra("object") !=null){
+            item = (Item) getIntent().getSerializableExtra("object");
+            idDM =  String.valueOf(item.getId());
+            txttenDM.setText(""+item.getTitle());
+        }else{
+            idDM = "";
+        }
 
     }
+
+
+    private void getSanPham(){
+        NumberFormat formatter = new DecimalFormat("###,###,###");
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, BASE_URL_SP, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Phones.clear();
+                        for(int i = 0 ; i <=response.length();i++){
+                            try{
+                                JSONObject object = response.getJSONObject(i);
+                                phonehelperS phone = new phonehelperS();
+                                phone.setIdDM(object.getInt("idDM"));
+                                phone.setIdSP(object.getInt("idSP"));
+                                phone.setTitle(object.getString("Tittle"));
+                                phone.setImage(http+ object.getString("HinhAnh"));
+                                phone.setNote(object.getString("UuDai"));
+                                phone.setPrice(formatter.format(object.getInt("Gia"))+" VNĐ");
+                                phone.setGiaInt(object.getInt("Gia"));
+                                phone.setRate(object.getInt("SoDanhGia")+" đánh giá");
+                                phone.setSizemanhinh(object.getString("size"));
+                                phone.setLoaimanhinh(object.getString("loai"));
+                                phone.setRam(object.getString("ram"));
+                                phone.setRom(object.getString("rom"));
+                                phone.setPin(object.getString("pin"));
+                                phone.setStar(R.drawable.star);
+                                phone.setStar2(R.drawable.star);
+                                phone.setStar3(R.drawable.star);
+                                phone.setStar4(R.drawable.star);
+                                Phones.add(phone);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                        phoneRecyclerS.setLayoutManager(new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false));
+                        //itemRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        adapter = new adapterphoneS(getApplicationContext(),Phones,CategoryActivity.this);
+                        phoneRecyclerS.setAdapter(adapter);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText( null, "lỗi", Toast.LENGTH_SHORT).show();
+                Log.d("tag","onErrorRespone: " +error.getMessage());
+            }
+        });
+        queue.add(jsonArrayRequest);
+    }
+
     private void itemRecycler6() {
         //All Gradients
         itemRecycler6.setHasFixedSize(true);
         //phoneRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         itemRecycler6.setLayoutManager(new GridLayoutManager(this,1,GridLayoutManager.HORIZONTAL,false));
 
-        ArrayList<Price> itemlocationsC = new ArrayList<>();
-        itemlocationsC.add(new Price( "Từ 2 - 4 triệu"));
-        itemlocationsC.add(new Price( "Từ 4 - 7 triệu"));
-        itemlocationsC.add(new Price( "Từ 7 - 13 triệu"));
-        itemlocationsC.add(new Price( "Từ 13 - 15 triệu"));
-        itemlocationsC.add(new Price( "Trên 15 triệu"));
+
+        itemlocationsC.add(new Price( "Dưới 2 triệu",0,2000000));
+        itemlocationsC.add(new Price( "Từ 2 - 4 triệu",2000000,4000000));
+        itemlocationsC.add(new Price( "Từ 4 -7 triệu",4000000,7000000));
+        itemlocationsC.add(new Price( "Từ 7 - 13 triệu",7000000,13000000));
+        itemlocationsC.add(new Price( "Trên 15 triệu",15000000,1000000000));
 
 
 
@@ -299,5 +516,70 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    public void getSPbyDM() {
+        NumberFormat formatter = new DecimalFormat("###,###,###");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Phones.clear();
+
+                try{
+                    JSONObject jsonObject  = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    JSONArray jsonArray = jsonObject.getJSONArray("login");
+                    if(success.equals("1")){
+
+                        for(int i = 0 ; i < jsonArray.length();i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+
+                            phonehelperS phone = new phonehelperS();
+                            phone.setIdDM(object.getInt("idDM"));
+                            phone.setIdSP(object.getInt("idSP"));
+                            phone.setTitle(object.getString("Tittle"));
+                            phone.setImage(http+ object.getString("HinhAnh"));
+                            phone.setNote(object.getString("UuDai"));
+                            phone.setPrice(formatter.format(object.getInt("Gia"))+" VNĐ");
+                            phone.setGiaInt(object.getInt("Gia"));
+                            phone.setRate(object.getInt("SoDanhGia")+" đánh giá");
+                            phone.setSizemanhinh(object.getString("size"));
+                            phone.setLoaimanhinh(object.getString("loai"));
+                            phone.setRam(object.getString("ram"));
+                            phone.setRom(object.getString("rom"));
+                            phone.setPin(object.getString("pin"));
+                            phone.setStar(R.drawable.star);
+                            phone.setStar2(R.drawable.star);
+                            phone.setStar3(R.drawable.star);
+                            phone.setStar4(R.drawable.star);
+                            Phones.add(phone);
+                        }
+                        phoneRecyclerS.setLayoutManager(new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false));
+                        //itemRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        adapter = new adapterphoneS(getApplicationContext(),Phones,CategoryActivity.this);
+                        phoneRecyclerS.setAdapter(adapter);
+                    }
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+                    //Toast.makeText(getApplicationContext(),"Error: " + e.toString(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),"Error: " + error.toString(),Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> data = new HashMap<>();
+                data.put("idDM", idDM);
+
+                return data;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }

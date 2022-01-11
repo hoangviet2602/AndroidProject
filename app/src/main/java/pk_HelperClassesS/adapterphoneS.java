@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.test.ProductDetailActivity;
 import com.example.test.R;
 import com.example.test.pk_HelperClasses.phonehelper;
@@ -44,30 +45,29 @@ public class adapterphoneS extends RecyclerView.Adapter<adapterphoneS.PhoneViewH
 
 
         final phonehelperS phonehelper = phoneLaocations.get(position);
-        holder.image.setImageResource(phonehelper.getImageS());
-        holder.star.setImageResource(phonehelper.getStarS());
-        holder.star2.setImageResource(phonehelper.getStar2S());
-        holder.star3.setImageResource(phonehelper.getStar3S());
-        holder.star4.setImageResource(phonehelper.getStar4S());
-        holder.title.setText(phonehelper.getTitleS());
-        holder.price.setText(phonehelper.getPriceS());
-        holder.note.setText(phonehelper.getNoteS());
-        holder.rate.setText(phonehelper.getRateS());
+        Glide.with(mContext).load(phonehelper.getImage()).into(holder.image);
+        holder.star.setImageResource(phonehelper.getStar());
+        holder.star2.setImageResource(phonehelper.getStar2());
+        holder.star3.setImageResource(phonehelper.getStar3());
+        holder.star4.setImageResource(phonehelper.getStar4());
+        holder.title.setText(phonehelper.getTitle());
+        holder.price.setText(phonehelper.getPrice());
+        holder.note.setText(phonehelper.getNote());
+        holder.rate.setText(phonehelper.getRate());
         //xu li su kien click
         holder.layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                onClickGoToDetail(phonehelper);
             }
         });
 
     }
     // xu li su kien click vao product
-    private void onClickGoToDetail(phonehelper phonehelper){
+    private void onClickGoToDetail(phonehelperS phonehelper){
         Intent intent = new Intent(mContext, ProductDetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("object",phonehelper);
+        bundle.putSerializable("objectS",phonehelper);
         intent.putExtras(bundle);
         mContext.startActivity(intent);
     }

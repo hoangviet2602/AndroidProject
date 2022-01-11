@@ -1,5 +1,7 @@
 package com.example.test;
 
+import static com.example.test.LoginActivity.user;
+import static com.example.test.MainActivity.islogin;
 import static com.example.test.MainActivity.pendingSMSCount;
 
 import android.content.Intent;
@@ -20,7 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
     TextView smsCountTxt;
-    ImageButton btngotoInfo;
+    ImageButton btngotoInfo,btnSingout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +62,15 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ProfileActivity.this,InfomationCustomer.class);
+                startActivity(intent);
+            }
+        });
+        btnSingout = findViewById(R.id.btnOut);
+        btnSingout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                islogin = false;
+                Intent intent = new Intent(ProfileActivity.this,MainActivity.class);
                 startActivity(intent);
             }
         });

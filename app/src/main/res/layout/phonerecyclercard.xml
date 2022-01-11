@@ -19,9 +19,8 @@
         <ImageView
             android:id="@+id/phone_image"
             android:layout_width="160dp"
-            android:layout_marginLeft="25dp"
             android:layout_height="130dp"
-
+            android:layout_marginLeft="25dp"
             android:src="@drawable/facebook" />
     </RelativeLayout>
 

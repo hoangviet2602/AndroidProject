@@ -1,6 +1,7 @@
 package com.example.test;
 
 
+import static com.example.test.MainActivity.http;
 import static com.example.test.MainActivity.pendingSMSCount;
 
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,23 +22,30 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.test.pk_HelperClasses.adapterphone;
 import com.example.test.pk_HelperClasses.phonehelper;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import pk_HelperClassesS.adapterphoneS;
+import pk_HelperClassesS.phonehelperS;
 import pk_cart.Cart;
 
 public class ProductDetailActivity extends AppCompatActivity implements adapterphone.ListItemClickListener{
@@ -50,11 +59,12 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
     ImageButton minus,plus;
     ArrayList<phonehelper> Phones = new ArrayList<phonehelper>();
     private static  final String BASE_URL_SP = "http://192.168.1.62/androidwebservice/sanpham.php";
-
+    private String URL = http+"androidwebservice/getSPbyDM.php";
     int idSP=0;
     String Tittle = "";
     int price=0;
     String Image = "";
+    String idDM;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +77,8 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         anhxa();
         setSupportActionBar(toolbar);
         getInfomation();
-        getSanPham();
+
+        getSPbyDM();
         EvenButton();
         SetQty();
     }
@@ -185,27 +196,52 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         String ram = "";
         String rom = "";
         String pin="";
-        phonehelper phone = (phonehelper) getIntent().getSerializableExtra("object");
-        idSP = phone.getIdSP();
-        Tittle = phone.getTitle();
-        Image = phone.getImage();
-        price  = phone.getGiaInt();
-        size = phone.getSizemanhinh();
-        loai = phone.getLoaimanhinh();
-        ram = phone.getRam();
-        rom = phone.getRom();
-        pin = phone.getPin();
+        if((phonehelper) getIntent().getSerializableExtra("object") != null) {
+            phonehelper phone = (phonehelper) getIntent().getSerializableExtra("object");
+            idDM = String.valueOf(phone.getIdDM());
+            idSP = phone.getIdSP();
+            Tittle = phone.getTitle();
+            Image = phone.getImage();
+            price = phone.getGiaInt();
+            size = phone.getSizemanhinh();
+            loai = phone.getLoaimanhinh();
+            ram = phone.getRam();
+            rom = phone.getRom();
+            pin = phone.getPin();
 
-        tvTen.setText(Tittle);
-        DecimalFormat format = new DecimalFormat("###,###,###");
-        tvGia.setText(format.format(price)+" VNĐ");
-        Glide.with(getApplicationContext()).load(Image).into(imageView);
-        tvsize.setText(size);
-        tvloai.setText(loai);
-        tvram.setText(ram);
-        tvrom.setText(rom);
-        tvpin.setText(pin);
+            tvTen.setText(Tittle);
+            DecimalFormat format = new DecimalFormat("###,###,###");
+            tvGia.setText(format.format(price) + " VNĐ");
+            Glide.with(getApplicationContext()).load(Image).into(imageView);
+            tvsize.setText(size);
+            tvloai.setText(loai);
+            tvram.setText(ram);
+            tvrom.setText(rom);
+            tvpin.setText(pin);
+        }else{
+            phonehelperS phone = (phonehelperS) getIntent().getSerializableExtra("objectS");
+            idSP = phone.getIdSP();
+            Tittle = phone.getTitle();
+            Image = phone.getImage();
+            price = phone.getGiaInt();
+            size = phone.getSizemanhinh();
+            loai = phone.getLoaimanhinh();
+            ram = phone.getRam();
+            rom = phone.getRom();
+            pin = phone.getPin();
+
+            tvTen.setText(Tittle);
+            DecimalFormat format = new DecimalFormat("###,###,###");
+            tvGia.setText(format.format(price) + " VNĐ");
+            Glide.with(getApplicationContext()).load(Image).into(imageView);
+            tvsize.setText(size);
+            tvloai.setText(loai);
+            tvram.setText(ram);
+            tvrom.setText(rom);
+            tvpin.setText(pin);
+        }
     }
+
 
     private void anhxa(){
         tvTen = findViewById(R.id.tvtensp);
@@ -261,7 +297,6 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         }
         return true;
     }
-
     private void setupBadge() {
         if (smsCountTxt != null) {
             if (pendingSMSCount == 0) {
@@ -277,13 +312,75 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
         }
     }
 
-
-
     @Override
     public void onphoneListClick(int clickedItemIndex) {
 
     }
 
+    public void getSPbyDM() {
 
+        NumberFormat formatter = new DecimalFormat("###,###,###");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Phones.clear();
+
+                try{
+                    JSONObject jsonObject  = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    JSONArray jsonArray = jsonObject.getJSONArray("login");
+                    if(success.equals("1")){
+
+                        for(int i = 0 ; i < jsonArray.length();i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+
+                            phonehelper phone = new phonehelper();
+                            phone.setIdDM(object.getInt("idDM"));
+                            phone.setIdSP(object.getInt("idSP"));
+                            phone.setTitle(object.getString("Tittle"));
+                            phone.setImage(http+ object.getString("HinhAnh"));
+                            phone.setNote(object.getString("UuDai"));
+                            phone.setPrice(formatter.format(object.getInt("Gia"))+" VNĐ");
+                            phone.setGiaInt(object.getInt("Gia"));
+                            phone.setRate(object.getInt("SoDanhGia")+" đánh giá");
+                            phone.setSizemanhinh(object.getString("size"));
+                            phone.setLoaimanhinh(object.getString("loai"));
+                            phone.setRam(object.getString("ram"));
+                            phone.setRom(object.getString("rom"));
+                            phone.setPin(object.getString("pin"));
+                            phone.setStar(R.drawable.star);
+                            phone.setStar2(R.drawable.star);
+                            phone.setStar3(R.drawable.star);
+                            phone.setStar4(R.drawable.star);
+                            Phones.add(phone);
+                        }
+                        phoneRecycler.setLayoutManager(new GridLayoutManager(getApplicationContext(),1,GridLayoutManager.HORIZONTAL,false));
+                        //itemRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        adapter = new adapterphone(getApplicationContext(),Phones,ProductDetailActivity.this);
+                        phoneRecycler.setAdapter(adapter);
+                    }
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+                    //Toast.makeText(getApplicationContext(),"Error: " + e.toString(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),"Error: " + error.toString(),Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> data = new HashMap<>();
+                data.put("idDM", idDM);
+
+                return data;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 
 }
