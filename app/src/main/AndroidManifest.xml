@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Test"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".OrderedActivity"
+            android:exported="false" />
+        <activity
             android:name=".CheckoutActivity"
             android:exported="false" />
         <activity

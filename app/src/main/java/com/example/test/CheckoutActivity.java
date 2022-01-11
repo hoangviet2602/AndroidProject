@@ -75,10 +75,7 @@ public class CheckoutActivity extends AppCompatActivity {
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //new Gson().toJson(cartArrayList);
-                //Toast.makeText(getApplicationContext(), ""+new Gson().toJson(cartArrayList), Toast.LENGTH_SHORT).show();
                 checkout();
-                //DialogSubmit();
             }
         });
     }
@@ -93,6 +90,7 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                cartArrayList.clear();
             }
         });
 
@@ -193,8 +191,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
     public void checkout() {
 
-
-
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_Checkout, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -233,12 +229,15 @@ public class CheckoutActivity extends AppCompatActivity {
                         jsonArray.put(jsonObject);
                     }
                     Map<String, String> data = new HashMap<>();
+                    String[] arrOfStr = cartArrayList.get(0).getHinhAnh().split(http);
                     data.put("idUser", String.valueOf(user.getIdUser()));
                     data.put("TongTien", String.valueOf(tong));
                     data.put("tennguoinhan", txtName.getText().toString());
                     data.put("sdt", txtPhone.getText().toString());
                     data.put("diachi", txtAddress.getText().toString());
+                    data.put("hinhanh", arrOfStr[1]);
                     data.put("chitiet", jsonArray.toString());
+
                     return data;
                 }
             };

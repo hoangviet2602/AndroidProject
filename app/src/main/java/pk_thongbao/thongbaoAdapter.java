@@ -1,6 +1,7 @@
 package pk_thongbao;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +9,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.example.test.R;
 
 import java.util.List;
+
+import pk_cart.CartAdapter;
 
 public class thongbaoAdapter extends BaseAdapter {
 
@@ -47,11 +54,14 @@ public class thongbaoAdapter extends BaseAdapter {
         TextView txtTen =  (TextView) view.findViewById(R.id.textviewTen);
         TextView txtMoTa = (TextView) view.findViewById(R.id.textviewMoTa);
         ImageView imgHinh = (ImageView) view.findViewById(R.id.imageviewHinh);
+        TextView txtTime = view.findViewById(R.id.textviewTime);
 
         thongbao thongbao = thongbaoList.get(i);
         txtTen.setText(thongbao.getTen());
         txtMoTa.setText(thongbao.getMoTa());
-        imgHinh.setImageResource(thongbao.getHinh());
+        txtTime.setText(thongbao.getTime());
+
+        Glide.with(context).load(thongbao.getHinh()).into(imgHinh);
 
         return view;
     }

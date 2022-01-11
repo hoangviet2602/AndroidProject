@@ -19,14 +19,25 @@
         android:text="Tên"
         android:textSize="18dp"
         android:textStyle="bold" />
+
     <TextView
-        android:text="Mô tả"
-        android:textSize="16dp"
-        android:layout_marginTop="5dp"
+        android:id="@+id/textviewMoTa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/textviewTen"
         android:layout_marginLeft="15dp"
+
         android:layout_toRightOf="@id/imageviewHinh"
-        android:id="@+id/textviewMoTa"
+        android:text="Mô tả"
+        android:textSize="16dp" />
+    <TextView
+        android:text="11/01/2022 5:11 PM"
+        android:textSize="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/textviewMoTa"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/imageviewHinh"
+        android:id="@+id/textviewTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />

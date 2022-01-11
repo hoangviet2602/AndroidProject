@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
     public static int pendingSMSCount = 0;
     private static  final String BASE_URL = http+"androidwebservice/danhmuc.php";
     private static  final String BASE_URL_SP = http+"androidwebservice/sanpham.php";
+    private static  final String URL_ALL_SP = http+"androidwebservice/getallSP.php";
     public static ArrayList<Cart>  cartArrayList;
     ArrayList<Item> itemDMs = new ArrayList<Item>();
     ArrayList<phonehelper> Phones = new ArrayList<phonehelper>();
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         itemRecycler = findViewById(R.id.my_recycler);
         phoneRecycler2 = findViewById(R.id.my_recycler1);
         phoneRecycler3 = findViewById(R.id.my_recycler2);
-        phoneRecycler4 = findViewById(R.id.my_recycler3);
+//        phoneRecycler4 = findViewById(R.id.my_recycler3);
         viewPager = findViewById(R.id.viewpager);
         toolbar = findViewById(R.id.toolbarmain);
         edit_find = findViewById(R.id.edit_find);
@@ -209,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
     private void getSanPham(){
         NumberFormat formatter = new DecimalFormat("###,###,###");
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, BASE_URL_SP, null,
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL_ALL_SP, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -267,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
                                 phone.setIdDM(object.getInt("idDM"));
                                 phone.setIdSP(object.getInt("idSP"));
                                 phone.setTitle(object.getString("Tittle"));
-                                phone.setImage(object.getString("HinhAnh"));
+                                phone.setImage(http+object.getString("HinhAnh"));
                                 phone.setNote(object.getString("UuDai"));
                                 phone.setPrice(formatter.format(object.getInt("Gia"))+" VNĐ");
                                 phone.setRate(object.getInt("SoDanhGia")+" đánh giá");
@@ -287,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
                         }
                         phoneRecycler3.setLayoutManager(new GridLayoutManager(getApplicationContext(),1,GridLayoutManager.HORIZONTAL,false));
                         //itemRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-                        adapter = new adapterphone(getApplicationContext(),Phones,MainActivity.this);
+                        adapter = new adapterphone(getApplicationContext(),Phones2,MainActivity.this);
                         phoneRecycler3.setAdapter(adapter);
                     }
                 }, new Response.ErrorListener() {

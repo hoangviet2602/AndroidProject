@@ -63,7 +63,7 @@
             android:id="@+id/txtTongTien"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50.000 đ"
+            android:text="0 đ"
             android:textSize="20dp"
             android:textColor="#E81313"
             android:layout_marginLeft="150dp"/>

@@ -134,6 +134,7 @@
                                 </TextView>
 
                                 <ImageButton
+                                    android:id="@+id/btnOrdered"
                                     android:layout_width="35dp"
                                     android:layout_height="match_parent"
                                     android:layout_marginLeft="-60dp"

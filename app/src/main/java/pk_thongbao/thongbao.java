@@ -1,14 +1,31 @@
 package pk_thongbao;
 
 public class thongbao {
+    int idUer;
     private String Ten;
     private String MoTa;
-    private int Hinh;
+    private String Hinh;
+    private  String time;
 
-    public thongbao(String ten, String moTa, int hinh) {
-        Ten = ten;
-        MoTa = moTa;
-        Hinh = hinh;
+
+    public thongbao() {
+
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getIdUer() {
+        return idUer;
+    }
+
+    public void setIdUer(int idUer) {
+        this.idUer = idUer;
     }
 
     public String getTen() {
@@ -27,11 +44,11 @@ public class thongbao {
         MoTa = moTa;
     }
 
-    public int getHinh() {
+    public String getHinh() {
         return Hinh;
     }
 
-    public void setHinh(int hinh) {
+    public void setHinh(String hinh) {
         Hinh = hinh;
     }
 }

@@ -155,7 +155,7 @@
                                     android:textStyle="bold" />
                             </RelativeLayout>
                             <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/my_recycler1"
+                                android:id="@+id/my_recycler2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                             </androidx.recyclerview.widget.RecyclerView>
@@ -182,15 +182,11 @@
                                     android:textStyle="bold" />
                             </RelativeLayout>
                             <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/my_recycler2"
+                                android:id="@+id/my_recycler1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                             </androidx.recyclerview.widget.RecyclerView>
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/my_recycler3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                            </androidx.recyclerview.widget.RecyclerView>
+
 
                         </LinearLayout>
                     </LinearLayout>

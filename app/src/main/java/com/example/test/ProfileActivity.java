@@ -22,7 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
     TextView smsCountTxt;
-    ImageButton btngotoInfo,btnSingout;
+    ImageButton btngotoInfo,btnSingout,btnOrdered;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +71,14 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 islogin = false;
                 Intent intent = new Intent(ProfileActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnOrdered = findViewById(R.id.btnOrdered);
+        btnOrdered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfileActivity.this,OrderedActivity.class);
                 startActivity(intent);
             }
         });
