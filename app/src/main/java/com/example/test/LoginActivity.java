@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject jsonObject  = new JSONObject(response);
                         String success = jsonObject.getString("success");
                         JSONArray jsonArray = jsonObject.getJSONArray("login");
-                        Toast.makeText(LoginActivity.this,jsonArray.toString() ,Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(LoginActivity.this,jsonArray.toString() ,Toast.LENGTH_SHORT).show();
                         if(success.equals("1")){
                             Toast.makeText(LoginActivity.this,"OK: " ,Toast.LENGTH_SHORT).show();
                             for(int i = 0 ; i < jsonArray.length();i++){
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Users.add(user);
 
 
-                                Toast.makeText(LoginActivity.this,"Tên: " +  user.getUsername(),Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(LoginActivity.this,"Tên: " +  user.getUsername(),Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                                 startActivity(intent);
                                 finish();

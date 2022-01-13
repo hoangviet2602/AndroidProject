@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -20,7 +22,7 @@ public class OrderedActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     RecyclerView phoneRecycler;
-
+    ImageButton btnBack;
     RecyclerView.Adapter adapter;
     int images[] = {R.drawable.ip13_pink, R.drawable.iphon13};
 
@@ -49,5 +51,13 @@ public class OrderedActivity extends AppCompatActivity {
                     break;
             }
         }).attach();
+
+        btnBack = findViewById(R.id.back_Ordered);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }

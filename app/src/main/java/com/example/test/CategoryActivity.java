@@ -77,7 +77,7 @@ public class CategoryActivity extends AppCompatActivity implements adapterItem2.
     TextView txttenDM;
     ArrayList<Price> itemlocationsC = new ArrayList<>();
     RadioButton rdXemNhieu,rdGiathap,rdGiaCao,rdAll;
-    private static  final String BASE_URL_SP = http+"androidwebservice/sanpham.php";
+    private static  final String BASE_URL_SP = http+"androidwebservice/getallSP.php";
     private static  final String URL_Sort_Price = http+"androidwebservice/SortByPrice.php";
     private String URL = http+"androidwebservice/getSPbyDM.php";
     ArrayList<phonehelperS> Phones = new ArrayList<>();

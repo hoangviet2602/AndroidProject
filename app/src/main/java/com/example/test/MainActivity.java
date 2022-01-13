@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         circleIndicator.setViewPager(viewPager);
         photoAdapter.registerDataSetObserver(circleIndicator.getDataSetObserver());
 
-
         setSupportActionBar(toolbar);
 
 
@@ -274,6 +273,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
                                 phone.setRate(object.getInt("SoDanhGia")+" đánh giá");
                                 phone.setSizemanhinh(object.getString("size"));
                                 phone.setLoaimanhinh(object.getString("loai"));
+                                phone.setGiaInt(object.getInt("Gia"));
                                 phone.setRam(object.getString("ram"));
                                 phone.setRom(object.getString("rom"));
                                 phone.setPin(object.getString("pin"));

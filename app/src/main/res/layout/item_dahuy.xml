@@ -29,6 +29,7 @@
 
                 <TextView
                     android:id="@+id/ten"
+                    android:textColor="@color/black"
                     android:text="Iphone"
                     android:textSize="20dp"
                     android:layout_width="match_parent"
