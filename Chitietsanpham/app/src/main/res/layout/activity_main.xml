@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent=".08"
+        app:layout_constraintVertical_bias="0"
+        android:background="@drawable/ic_content_bg">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/return2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ctsp"
+            app:layout_constraintHorizontal_bias="0.222"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.551" />
+
+        <TextView
+            android:id="@+id/ctsp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="false"
+            android:layout_centerInParent="true"
+            android:text="Chi tiết sản phẩm"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:src="@drawable/giohang"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.893"
+            app:layout_constraintStart_toEndOf="@+id/ctsp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.482" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header">
+
+        <LinearLayout
+            android:id="@+id/body"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:id="@+id/product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="138dp"
+                    android:layout_height="104dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:src="@drawable/iphon13" />
+
+                <ImageView
+                    android:id="@+id/ip1"
+                    android:layout_width="50dp"
+                    android:layout_height="70dp"
+                    android:layout_below="@+id/imageView"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="-130dp"
+                    android:layout_marginBottom="100dp"
+                    android:src="@drawable/ip13_1" />
+
+                <ImageView
+                    android:id="@+id/ip2"
+                    android:layout_width="50dp"
+                    android:layout_height="70dp"
+                    android:layout_below="@+id/imageView"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="-130dp"
+                    android:layout_marginBottom="100dp"
+                    android:layout_marginLeft="90dp"
+                    android:src="@drawable/ip13_2" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+
+
+                <TextView
+                    android:id="@+id/tvtensp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imageView"
+                    android:layout_toRightOf="@+id/imageView"
+                    android:text="IPhone 13 Pro Max Xanh 1TP"
+                    android:textColor="@color/black"
+                    android:textSize="26dp" />
+
+                <TextView
+                    android:id="@+id/tvgia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvtensp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/imageView"
+                    android:text="Giá: 47.000.000 VNĐ"
+                    android:textColor="@color/red"
+                    android:textSize="16dp" />
+
+                <Button
+                    android:id="@+id/btThem"
+                    android:layout_width="88dp"
+                    android:layout_height="38dp"
+                    android:layout_below="@+id/btslg"
+                    android:layout_alignLeft="@+id/btslg"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="0dp"
+                    android:text="Thêm" />
+
+                <Button
+                    android:id="@+id/btchiase"
+                    android:layout_width="88dp"
+                    android:layout_height="38dp"
+                    android:layout_below="@+id/btslg"
+                    android:layout_alignRight="@+id/btslg"
+                    android:layout_marginTop="0dp"
+                    android:text="Chia sẻ" />
+
+                <EditText
+                    android:id="@+id/btslg"
+                    android:layout_width="220dp"
+                    android:layout_height="38dp"
+                    android:layout_below="@+id/tvgia"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_toRightOf="@+id/imageView"
+                    android:background="@color/pink" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/km"
+                android:layout_width="380dp"
+                android:layout_height="218dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="KHUYẾN MÃI"
+                    android:textColor="@color/red"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="KHÁCH HÀNG CHỌN MỘT TRONG CÁC KHUYẾN MẠI SAU:"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="7dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="    + Khuyến mại 1: Trả góp 0% trên giá bán lẻ"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="    + Khuyến mại 2: Giảm ngay đến 3,000,000đ cho Khách hàng Viettel nâng cấp lên gói cước trả sau V1000S (hoặc trợ giá tương đương 3 tháng cước cho các gói V300S, V500S, V700S)."
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="    + Khuyến mại 3: Giảm ngay 2,000,000đ khi mua kèm gói cước trọn gói năm 12V300S (giá gốc 3,600,000đ)."
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"                >
+
+                <TextView
+                    android:id="@+id/tvnameside"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sản phẩm tương tự"
+                    android:textColor="@color/red"
+                    android:textAllCaps="true"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="6dp"
+                    android:text="Xem thêm"
+                    android:textColor="@color/red"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/my_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvnameside"
+                    android:layout_marginTop="8dp">
+
+                </androidx.recyclerview.widget.RecyclerView>
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/footer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent=".08"
+        app:layout_constraintVertical_bias="1"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home"
+            app:layout_constraintBottom_toTopOf="@+id/textView4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.116"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.818" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trang chủ"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.077"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/find"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.257"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tìm kiếm"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.168"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.875" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thông báo"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.227"
+            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.875" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bell"
+            app:layout_constraintBottom_toTopOf="@+id/textView6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.33"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/profile"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.584"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tài khoản"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.463"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.85" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
