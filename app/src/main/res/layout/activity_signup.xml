@@ -45,7 +45,7 @@
         android:contentDescription="top_icon" />
 
     <EditText
-        android:id="@+id/inputEmail"
+        android:id="@+id/inputPass"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -56,7 +56,7 @@
         android:drawablePadding="16dp"
         android:ems="10"
         android:hint="Mật khẩu"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -64,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view5" />
 
     <EditText
-        android:id="@+id/inputEmail2"
+        android:id="@+id/inputUserName"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -83,7 +83,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view5" />
 
     <EditText
-        android:id="@+id/inputEmail4"
+        android:id="@+id/inputPhone"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -102,7 +102,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view5" />
 
     <EditText
-        android:id="@+id/inputEmail5"
+        android:id="@+id/inputEmail"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -112,7 +112,7 @@
         android:drawableStart="@drawable/ic_email"
         android:drawablePadding="16dp"
         android:ems="10"
-        android:hint="Ngày sinh"
+        android:hint="Họ và tên"
         android:inputType="textEmailAddress"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,7 +121,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view5" />
 
     <EditText
-        android:id="@+id/inputEmail6"
+        android:id="@+id/inputAddress"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -154,11 +154,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputEmail6"
+        app:layout_constraintTop_toBottomOf="@+id/inputAddress"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/inputEmail3"
+        android:id="@+id/inputPass2"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -169,7 +169,7 @@
         android:drawablePadding="16dp"
         android:ems="10"
         android:hint="Xác nhận lại mật khẩu"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

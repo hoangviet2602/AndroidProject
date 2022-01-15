@@ -10,6 +10,7 @@
     $sdt = $_POST['sdt'];
     $diachi = $_POST['diachi'];
     $chitiet = $_POST['chitiet'];
+    $hinhanh=$_POST['hinhanh'];
 
     $sql = "INSERT  INTO `donhang` (`idDH`, `idUser`, `TongTien`,  `tennguoinhan`, `sdt`, `diachi`) 
     values (NULL,'$idUser','$TongTien','$tennguoinhan','$sdt','$diachi') ";
@@ -41,7 +42,7 @@
             }
         }
     }
-
+    
     if ($data3)
 	{
             $result['success'] = "1";
@@ -51,6 +52,9 @@
         echo "loi";
     }
 
+    $queryInsertTB = "INSERT INTO `thongbao` (`idTB`, `idUser`, `Tittle`, `Chitiet`, `HinhAnh`, `time`) VALUES (NULL, '$idUser',
+    'Đặt hàng thành công', 'Đơn hàng $idDH của bản đã được đặt thành công', '$hinhanh', current_timestamp())";
+    mysqli_query($connect, $queryInsertTB); 
    
  }
     
