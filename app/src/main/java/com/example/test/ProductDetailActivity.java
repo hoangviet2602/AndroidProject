@@ -220,6 +220,7 @@ public class ProductDetailActivity extends AppCompatActivity implements adapterp
             tvpin.setText(pin);
         }else{
             phonehelperS phone = (phonehelperS) getIntent().getSerializableExtra("objectS");
+            idDM = String.valueOf(phone.getIdDM());
             idSP = phone.getIdSP();
             Tittle = phone.getTitle();
             Image = phone.getImage();

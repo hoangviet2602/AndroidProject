@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                         JSONArray jsonArray = jsonObject.getJSONArray("login");
                         //Toast.makeText(LoginActivity.this,jsonArray.toString() ,Toast.LENGTH_SHORT).show();
                         if(success.equals("1")){
-                            Toast.makeText(LoginActivity.this,"OK: " ,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this,"Đăng nhập thành công!" ,Toast.LENGTH_SHORT).show();
                             for(int i = 0 ; i < jsonArray.length();i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
 

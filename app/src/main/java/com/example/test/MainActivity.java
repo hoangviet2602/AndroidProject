@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SearchEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
     private Timer mTimer;
     RecyclerView.Adapter adapter;
     Toolbar toolbar;
-    EditText edit_find;
+    SearchView edit_find;
     public static boolean islogin = false;
     public static String http  = "http://192.168.1.102/"; //Thay đổi  Địa chỉ ip của máy code mới chạy dc
     TextView smsCountTxt;
@@ -135,6 +137,23 @@ public class MainActivity extends AppCompatActivity implements adapterphone.List
         setSupportActionBar(toolbar);
 
 
+        edit_find.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Intent intent = new Intent(getApplicationContext(), CategoryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("key",s);
+                intent.putExtras(bundle);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getApplicationContext().startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
     }
 
     private void Anhxa() {

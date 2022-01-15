@@ -43,18 +43,19 @@
                 android:orientation="vertical"
                 android:background="@drawable/bg3">
 
-                <EditText
+                <SearchView
                     android:id="@+id/edit_find"
                     android:layout_marginTop="7dp"
                     android:layout_width="380dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
+                    android:queryHint="Bạn cần tìm gì?"
                     android:background="@drawable/find_style"
-                    android:drawableStart="@drawable/find"
-                    android:drawablePadding="16dp"
+                    android:iconifiedByDefault="false"
+
                     android:paddingLeft="10dp"
-                    android:hint="Bạn cần tìm gì?"
-                    android:imeOptions="actionSend"
+
+
                     android:textSize="20dp"/>
                 <androidx.cardview.widget.CardView
                     android:layout_width="380dp"
